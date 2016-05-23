@@ -1,0 +1,45 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+    libraries = [
+            dagger        : '2.4',
+            supportVersion: '23.4.0',
+            rxandroid:'1.2.0',
+            butterknife:'8.0.1',
+            rxbinding:'0.4.0'
+    ]
+    configuration = [
+            package          : "com.chendoing.gitcode",
+            buildToolsVersion: "23.0.3",
+            compileVersion   : 23,
+            minSdk           : 16,
+            targetSdk        : 23,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+    testingLibraries = [
+            junit  : '4.12',
+            mockito: '1.+'
+    ]
+}
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
