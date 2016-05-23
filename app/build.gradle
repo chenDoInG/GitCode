@@ -33,6 +33,10 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${libs.supportVersion}"
 
+    compile "com.squareup.retrofit2:retrofit:${libs.retrofit}"
+    compile "com.squareup.retrofit2:converter-jackson:${libs.retrofit}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${libs.retrofit}"
+
     compile "io.reactivex:rxandroid:${libs.rxandroid}"
     compile "com.jakewharton:butterknife:${libs.butterknife}"
     apt "com.jakewharton:butterknife-compiler:${libs.butterknife}"

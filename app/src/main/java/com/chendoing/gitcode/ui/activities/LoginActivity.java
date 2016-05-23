@@ -2,14 +2,17 @@ package com.chendoing.gitcode.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
+import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.R;
-import com.jakewharton.rxbinding.view.RxView;
+import com.chendoing.gitcode.injector.components.DaggerLoginActivityComponent;
+import com.chendoing.gitcode.injector.modules.LoginActivityModule;
+import com.chendoing.gitcode.presenters.LoginPresenter;
+import com.chendoing.gitcode.presenters.views.LoginView;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,20 +20,33 @@ import butterknife.ButterKnife;
 /**
  * Created by chenDoInG on 16/5/23.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
-    @BindView(R.id.edit_username)
-    EditText mEditUsername;
-    @BindView(R.id.edit_pwd)
-    EditText mEditPassword;
-    @BindView(R.id.button_login)
-    Button mLoginButton;
+    @Inject
+    LoginPresenter presenter;
+
+    @BindView(R.id.webView)
+    WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUI();
-        initLoginButton();
+        initDependencyInjects();
+        initPresenter();
+        initWebView();
+    }
+
+    private void initPresenter() {
+        presenter.onCreate();
+    }
+
+    private void initDependencyInjects() {
+        GitCodeApplication application = (GitCodeApplication) getApplication();
+        DaggerLoginActivityComponent.builder()
+                .appComponent(application.getAppComponent())
+                .loginActivityModule(new LoginActivityModule(this))
+                .build().inject(this);
     }
 
     private void initUI() {
@@ -38,10 +54,14 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    private void initLoginButton() {
-        RxView.clicks(mLoginButton)
-                .takeFirst(predicate-> !TextUtils.isEmpty(mEditUsername.getText()))
-                .subscribe(aVoid -> Toast.makeText(getApplicationContext(), mEditUsername.getText(), Toast.LENGTH_SHORT).show());
+    private void initWebView() {
+        mWebView.loadUrl("https://github.com/login/oauth/authorize?client_id=");
+        mWebView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
     }
 
 }

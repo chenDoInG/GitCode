@@ -3,9 +3,10 @@ ext {
     libraries = [
             dagger        : '2.4',
             supportVersion: '23.4.0',
-            rxandroid:'1.2.0',
-            butterknife:'8.0.1',
-            rxbinding:'0.4.0'
+            rxandroid     : '1.2.0',
+            butterknife   : '8.0.1',
+            rxbinding     : '0.4.0',
+            retrofit      : "2.0.2",
     ]
     configuration = [
             package          : "com.chendoing.gitcode",
