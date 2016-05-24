@@ -5,4 +5,7 @@ package com.chendoing.gitcode.presenters.views;
  */
 public interface LoginView {
 
+    void hideButtons();
+
+    void showErrorMsg(String errMsg);
 }

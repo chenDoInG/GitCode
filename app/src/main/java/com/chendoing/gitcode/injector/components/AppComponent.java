@@ -1,9 +1,8 @@
 package com.chendoing.gitcode.injector.components;
 
-import android.content.SharedPreferences;
-
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.injector.modules.AppModule;
+import com.f2prateek.rx.preferences.Preference;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -17,7 +16,7 @@ public interface AppComponent {
 
     GitCodeApplication app();
 
-    SharedPreferences sp();
+    Preference<String> token();
 
     @Named("ui_thread")
     Scheduler uiThread();
