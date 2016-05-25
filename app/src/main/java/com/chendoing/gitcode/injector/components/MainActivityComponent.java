@@ -1,8 +1,13 @@
 package com.chendoing.gitcode.injector.components;
 
-/**
- * Created by chenDoInG on 16/5/25.
- */
+import com.chendoing.gitcode.injector.Activity;
+import com.chendoing.gitcode.ui.activities.MainActivity;
+
+import dagger.Component;
+
+@Activity
+@Component(dependencies = AppComponent.class)
 public interface MainActivityComponent {
 
+    void inject(MainActivity mainActivity);
 }

@@ -1,5 +1,6 @@
 package com.chendoing.gitcode.injector.components;
 
+import com.chendoing.gitcode.data.api.oauth.AccessToken;
 import com.chendoing.gitcode.injector.Activity;
 import com.chendoing.gitcode.ui.activities.SplashActivity;
 import com.f2prateek.rx.preferences.Preference;

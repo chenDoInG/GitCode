@@ -8,5 +8,6 @@
     <string name="message_loading">loading</string>
     <string name="error.default">Something happen unexpected</string>
     <string name="retry">Retry</string>
-    <string name="activity_login">New account</string>
+    <string name="activity_login_title">New account</string>
+    <string name="activity_main_title">News</string>
 </resources>

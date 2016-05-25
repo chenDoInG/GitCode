@@ -1,10 +1,15 @@
 package com.chendoing.gitcode.data.api;
 
+import com.chendoing.gitcode.data.api.model.Event;
 import com.chendoing.gitcode.data.api.model.Token;
+import com.chendoing.gitcode.data.api.model.User;
+
+import java.util.List;
 
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -20,5 +25,11 @@ public interface GithubService {
     Observable<Token> getUserToken(@Query("client_id") String clientId, @Query("client_secret") String clientSecret, @Query("code") String code);
 
     @GET("events")
-    Observable getEvents();
+    Observable<List<Event>> getEvents();
+
+    @GET("users/{userName}/received_events")
+    Observable<List<Event>> getUserReceivedEvents(@Path("userName") String userName);
+
+    @GET("user")
+    Observable<User> getUser();
 }

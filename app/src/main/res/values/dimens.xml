@@ -41,4 +41,6 @@
     <dimen name="repository_divider_margin_left">58dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
     <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_huge">24dp</dimen>
+    <dimen name="insets">2dp</dimen>
 </resources>

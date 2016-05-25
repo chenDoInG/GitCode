@@ -7,7 +7,8 @@ ext {
             butterknife   : '8.0.1',
             rxbinding     : '0.4.0',
             retrofit      : "2.0.2",
-            rxpreference : "1.0.0"
+            rxpreference  : "1.0.0",
+            guava         : "19.0"
     ]
     configuration = [
             package          : "com.chendoing.gitcode",

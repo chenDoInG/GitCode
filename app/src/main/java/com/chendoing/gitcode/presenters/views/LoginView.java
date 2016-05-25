@@ -1,9 +1,11 @@
 package com.chendoing.gitcode.presenters.views;
 
+import android.view.*;
+
 /**
  * Created by chenDoInG on 16/5/23.
  */
-public interface LoginView {
+public interface LoginView extends View{
 
     void hideButtons();
 

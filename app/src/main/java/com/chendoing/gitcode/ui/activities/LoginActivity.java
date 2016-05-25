@@ -1,8 +1,6 @@
 package com.chendoing.gitcode.ui.activities;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,11 +13,8 @@ import android.widget.TextView;
 
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.R;
-import com.chendoing.gitcode.data.api.GithubReponse;
-import com.chendoing.gitcode.data.api.GithubService;
+import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.injector.components.DaggerLoginActivityComponent;
-import com.chendoing.gitcode.injector.modules.LoginActivityModule;
-import com.chendoing.gitcode.injector.modules.ApiModule;
 import com.chendoing.gitcode.presenters.LoginPresenter;
 import com.chendoing.gitcode.presenters.views.LoginView;
 import com.jakewharton.rxbinding.view.RxView;
@@ -72,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     private void initPresenter() {
+        presenter.attachView(this);
         presenter.onCreate();
     }
 
@@ -79,12 +75,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         GitCodeApplication application = (GitCodeApplication) getApplication();
         DaggerLoginActivityComponent.builder()
                 .appComponent(application.getAppComponent())
-                .loginActivityModule(new LoginActivityModule(this))
                 .build().inject(this);
     }
 
     private void initToolbar() {
-        mToolbar.setTitle(getString(R.string.activity_login));
+        mToolbar.setTitle(getString(R.string.activity_login_title));
     }
 
     private void initUI() {
@@ -129,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private void showWebView() {
         showLoadingView();
         WebView webView = ButterKnife.findById(mWebViewContainer, R.id.webView);
-        webView.loadUrl(GithubReponse.AUTH_URI);
+        webView.loadUrl(GithubResponse.AUTH_URI);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
