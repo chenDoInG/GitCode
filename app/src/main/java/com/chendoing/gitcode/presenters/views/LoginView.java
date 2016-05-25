@@ -7,5 +7,15 @@ public interface LoginView {
 
     void hideButtons();
 
-    void showErrorMsg(String errMsg);
+    void showErrorView(String errMsg);
+    void hideErrorView();
+
+    void goToMainView();
+
+    void showLoadingIndicator();
+
+    void hideLoadingIndicator();
+
+    void showLoadingView();
+    void hideLoadingView();
 }

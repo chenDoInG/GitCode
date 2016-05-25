@@ -1,17 +1,22 @@
 package com.chendoing.gitcode.ui.activities;
 
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.R;
+import com.chendoing.gitcode.data.api.GithubReponse;
 import com.chendoing.gitcode.data.api.GithubService;
-import com.chendoing.gitcode.data.api.model.Token;
 import com.chendoing.gitcode.injector.components.DaggerLoginActivityComponent;
 import com.chendoing.gitcode.injector.modules.LoginActivityModule;
 import com.chendoing.gitcode.injector.modules.ApiModule;
@@ -34,15 +39,24 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Inject
     LoginPresenter presenter;
-    @Inject
-    String authURI;
+
 
     @BindView(R.id.activity_login_webview)
     View mWebViewContainer;
+    @BindView(R.id.activity_login_error_view)
+    View mErrorView;
+    @BindView(R.id.activity_login_empty_indicator)
+    View mIndicator;
+
     @BindView(R.id.button_personal)
     ImageView mPersonal;
     @BindView(R.id.button_enterprise)
     ImageView mEnterprise;
+
+    @BindView(R.id.activity_login_toolbar)
+    Toolbar mToolbar;
+
+    private Snackbar mLoadingSnack;
 
 
     private final static String REDIRECT_URI = "https://github.com/chenDoInG/CodeHub/callback";
@@ -51,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUI();
+        initToolbar();
         initDependencyInjects();
         initPresenter();
         initPersonButtonListener();
@@ -64,9 +79,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         GitCodeApplication application = (GitCodeApplication) getApplication();
         DaggerLoginActivityComponent.builder()
                 .appComponent(application.getAppComponent())
-                .apiModule(new ApiModule(GithubService.TOKEN_URI))
                 .loginActivityModule(new LoginActivityModule(this))
                 .build().inject(this);
+    }
+
+    private void initToolbar() {
+        mToolbar.setTitle(getString(R.string.activity_login));
     }
 
     private void initUI() {
@@ -84,12 +102,38 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     }
 
+    @Override
+    public void showLoadingIndicator() {
+        mLoadingSnack = Snackbar.make(mWebViewContainer,
+                getString(R.string.message_loading), Snackbar.LENGTH_INDEFINITE);
+        mLoadingSnack.show();
+    }
+
+    @Override
+    public void hideLoadingIndicator() {
+        if (mLoadingSnack != null) mLoadingSnack.dismiss();
+    }
+
+    @Override
+    public void showLoadingView() {
+        mIndicator.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadingView() {
+        if (mIndicator.getVisibility() == View.VISIBLE) {
+            mIndicator.setVisibility(View.GONE);
+        }
+    }
+
     private void showWebView() {
+        showLoadingView();
         WebView webView = ButterKnife.findById(mWebViewContainer, R.id.webView);
-        webView.loadUrl(authURI);
+        webView.loadUrl(GithubReponse.AUTH_URI);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                hideLoadingView();
                 if (url.contains(REDIRECT_URI)) {
                     String code = HttpUrl.parse(url).queryParameter("code");
                     presenter.getAccessToken(code);
@@ -100,6 +144,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         mWebViewContainer.setVisibility(View.VISIBLE);
     }
 
+    @Override
     public void hideButtons() {
         if (mPersonal.getVisibility() == View.VISIBLE) {
             mPersonal.setVisibility(View.GONE);
@@ -109,8 +154,24 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         }
     }
 
-    public void showErrorMsg(String errMsg) {
-        Toast.makeText(getApplicationContext(), errMsg, Toast.LENGTH_LONG).show();
+    @Override
+    public void showErrorView(String errMsg) {
+        TextView errorTextView = ButterKnife.findById(mErrorView, R.id.view_error_message);
+        errorTextView.setText(errMsg);
+        mErrorView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideErrorView() {
+        if (mErrorView.getVisibility() == View.VISIBLE) {
+            mErrorView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void goToMainView() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 }

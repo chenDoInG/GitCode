@@ -27,12 +27,6 @@ public class LoginActivityModule {
 
     @Provides
     @Activity
-    String providesAuthURI() {
-        return GithubReponse.AUTH_URI;
-    }
-
-    @Provides
-    @Activity
     public GithubReponse providesAccessToken(Retrofit retrofit, @Named("ui_thread") Scheduler uiThread, @Named("executor_thread") Scheduler executorThread) {
         return new GithubReponse(uiThread, executorThread, retrofit.create(GithubService.class));
     }

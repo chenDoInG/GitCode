@@ -40,4 +40,10 @@ public class GithubReponse {
                 .observeOn(uiThread);
     }
 
+    public Observable getEvents(){
+        return githubService.getEvents()
+                .subscribeOn(executorThread)
+                .observeOn(uiThread);
+    }
+
 }

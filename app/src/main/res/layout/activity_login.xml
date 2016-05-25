@@ -2,8 +2,24 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
        xmlns:tools="http://schemas.android.com/tools">
 
+    <ProgressBar
+        android:id="@+id/activity_login_empty_indicator"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:visibility="gone"
+        />
+
     <include
         android:id="@+id/activity_login_webview"
+        layout="@layout/view_webview"
+        android:layout_gravity="center"
+        tools:ignore="IncludeLayoutParam"/>
+
+    <include
+        android:id="@+id/activity_login_error_view"
         layout="@layout/view_error"
         android:layout_gravity="center"
         tools:ignore="IncludeLayoutParam"/>
@@ -12,21 +28,32 @@
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:orientation="vertical"
-                  >
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/activity_login_toolbar"
+            style="@style/Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@null"
+            />
+
         <ImageView
             android:id="@+id/button_personal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/personal"
             android:src="@drawable/dotcom_mascot"
-            android:contentDescription="@string/personal"/>
+            />
+
         <ImageView
             android:id="@+id/button_enterprise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/enterprise_mascot"
+            android:background="@color/gray"
             android:contentDescription="@string/enterprise"
-            android:background="@color/gray"/>
+            android:src="@drawable/enterprise_mascot"/>
     </LinearLayout>
 </merge>

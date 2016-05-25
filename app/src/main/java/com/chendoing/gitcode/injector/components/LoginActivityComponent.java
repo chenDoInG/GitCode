@@ -16,5 +16,4 @@ public interface LoginActivityComponent {
 
     LoginPresenter presenter();
 
-    String authURI();
 }

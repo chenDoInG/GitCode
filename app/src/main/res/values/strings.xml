@@ -5,4 +5,8 @@
     <string name="action_login">Login</string>
     <string name="personal">personal</string>
     <string name="enterprise">enterprise</string>
+    <string name="message_loading">loading</string>
+    <string name="error.default">Something happen unexpected</string>
+    <string name="retry">Retry</string>
+    <string name="activity_login">New account</string>
 </resources>
