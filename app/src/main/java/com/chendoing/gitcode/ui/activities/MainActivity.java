@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.R;
-import com.chendoing.gitcode.data.api.model.Event;
+import com.chendoing.gitcode.data.api.model.events.Event;
 import com.chendoing.gitcode.injector.components.DaggerMainActivityComponent;
 import com.chendoing.gitcode.presenters.MainActivityPresenter;
 import com.chendoing.gitcode.presenters.views.MainView;

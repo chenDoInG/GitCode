@@ -10,4 +10,6 @@
     <string name="retry">Retry</string>
     <string name="activity_login_title">New account</string>
     <string name="activity_main_title">News</string>
+    <string name="item_event_thumb">item_event_thumb</string>
+    <string name="item_event_type">item_event_type</string>
 </resources>

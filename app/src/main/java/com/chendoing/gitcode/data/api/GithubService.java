@@ -1,6 +1,6 @@
 package com.chendoing.gitcode.data.api;
 
-import com.chendoing.gitcode.data.api.model.Event;
+import com.chendoing.gitcode.data.api.model.events.Event;
 import com.chendoing.gitcode.data.api.model.Token;
 import com.chendoing.gitcode.data.api.model.User;
 

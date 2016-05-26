@@ -6,12 +6,11 @@ import android.content.SharedPreferences;
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.data.api.GithubService;
-import com.chendoing.gitcode.data.api.oauth.AccessToken;
 import com.chendoing.gitcode.data.api.oauth.OauthInterceptor;
-import com.chendoing.gitcode.injector.Activity;
 import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 
@@ -25,7 +24,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -78,9 +77,10 @@ public class AppModule {
 
     @Provides
     Retrofit providesRetrofit(OkHttpClient okHttpClient) {
-
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
         return new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().serializeNulls().generateNonExecutableJson().create()))
+                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(GithubService.BASE_URL)
                 .client(okHttpClient)

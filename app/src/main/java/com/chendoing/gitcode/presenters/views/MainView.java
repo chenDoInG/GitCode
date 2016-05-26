@@ -1,6 +1,6 @@
 package com.chendoing.gitcode.presenters.views;
 
-import com.chendoing.gitcode.data.api.model.Event;
+import com.chendoing.gitcode.data.api.model.events.Event;
 
 import java.util.List;
 

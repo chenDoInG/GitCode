@@ -2,6 +2,7 @@ package com.chendoing.gitcode.presenters;
 
 import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.data.api.model.Token;
+import com.chendoing.gitcode.injector.Activity;
 import com.chendoing.gitcode.presenters.views.LoginView;
 import com.chendoing.gitcode.presenters.views.View;
 import com.f2prateek.rx.preferences.Preference;
@@ -11,6 +12,7 @@ import javax.inject.Inject;
 /**
  * Created by chenDoInG on 16/5/23.
  */
+@Activity
 public class LoginPresenter implements Presenter {
 
     private LoginView loginView;

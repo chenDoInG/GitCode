@@ -10,10 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chendoing.gitcode.R;
-import com.chendoing.gitcode.data.api.model.Event;
+import com.chendoing.gitcode.data.api.model.events.Event;
 import com.chendoing.gitcode.ui.RecyclerClickListener;
 import com.google.common.base.Joiner;
 
@@ -21,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserReceivedEventListAdapter.UserReceivedEventViewHolder> {
 
@@ -56,8 +59,14 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
 
     public class UserReceivedEventViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_view)
+        @BindView(R.id.item_event_description)
         TextView mTextView;
+        @BindView(R.id.item_event_thumb)
+        CircleImageView mEventThumb;
+        @BindView(R.id.item_event_type)
+        ImageView mEventType;
+        @BindView(R.id.item_event_time)
+        TextView mEventTime;
 
         public UserReceivedEventViewHolder(View itemView, final RecyclerClickListener recyclerClickListener) {
             super(itemView);
@@ -66,9 +75,17 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
         }
 
         public void bindAvenger(Event event) {
-            System.out.println(event);
-            String text = Joiner.on("-").join(new String[]{event.getActor().getLogin(), event.getType(), event.getRepo().getUrl()});
+            String text = Joiner.on("-").join(new String[]{event.getActor().getLogin(), event.getRepo().getUrl()});
             mTextView.setText(text);
+            Glide.with(mContext)
+                    .load(event.getActor().getAvatar_url())
+                    .crossFade()
+                    .into(mEventThumb);
+            Glide.with(mContext)
+                    .load(event.getDrableId())
+                    .crossFade()
+                    .into(mEventType);
+            mEventTime.setText(event.getCreated_at());
         }
 
         private void bindListener(View itemView, final RecyclerClickListener recyclerClickListener) {

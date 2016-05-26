@@ -1,8 +1,8 @@
 package com.chendoing.gitcode.presenters;
 
 import com.chendoing.gitcode.data.api.GithubResponse;
-import com.chendoing.gitcode.data.api.model.Event;
-import com.chendoing.gitcode.data.api.model.User;
+import com.chendoing.gitcode.data.api.model.events.Event;
+import com.chendoing.gitcode.injector.Activity;
 import com.chendoing.gitcode.presenters.views.MainView;
 import com.chendoing.gitcode.presenters.views.View;
 
@@ -13,6 +13,7 @@ import javax.inject.Inject;
 /**
  * Created by chenDoInG on 16/5/25.
  */
+@Activity
 public class MainActivityPresenter implements Presenter {
 
     private MainView mainView;

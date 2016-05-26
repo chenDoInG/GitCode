@@ -8,7 +8,8 @@ ext {
             rxbinding     : '0.4.0',
             retrofit      : "2.0.2",
             rxpreference  : "1.0.0",
-            guava         : "19.0"
+            guava         : "19.0",
+            glide               : "3.7.0"
     ]
     configuration = [
             package          : "com.chendoing.gitcode",
