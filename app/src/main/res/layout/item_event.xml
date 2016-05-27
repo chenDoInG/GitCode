@@ -7,56 +7,51 @@
     android:layout_margin="8dp"
     card_view:cardCornerRadius="1dp">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/actionbarLayoutId"
+    <RelativeLayout android:id="@+id/actionbarLayoutId"
+                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"  >
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp">
 
 
         <ImageView
             android:id="@+id/item_event_type"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp"
+            android:layout_gravity="top|end"
             android:layout_marginBottom="5dp"
-            android:layout_gravity="top|end" />
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"/>
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_event_thumb"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
             android:layout_below="@+id/item_event_type"
-            android:layout_gravity="center_vertical"/>
-        <!--<ImageView-->
-            <!--android:id="@+id/item_event_thumb"-->
-            <!--android:layout_width="50dp"-->
-            <!--android:layout_height="50dp"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_below="@+id/item_event_type"-->
-            <!--android:layout_gravity="center_vertical" />-->
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"/>
 
 
         <TextView
             android:id="@+id/item_event_time"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_toRightOf="@+id/item_event_type"
+            android:layout_gravity="top|start"
             android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/item_event_type"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textSize="14sp"
-            android:layout_gravity="top|start"/>
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/item_event_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/item_event_type"
             android:layout_below="@+id/item_event_time"
-            android:textSize="16sp"
-            android:layout_gravity="start|center_vertical"
-            android:padding="10dp"/>
+            android:layout_toRightOf="@+id/item_event_type"
+            android:padding="10dp"
+            android:textSize="16sp"/>
     </RelativeLayout>
 
 

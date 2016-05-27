@@ -1,7 +1,7 @@
 package com.chendoing.gitcode.presenters;
 
 import com.chendoing.gitcode.data.api.GithubResponse;
-import com.chendoing.gitcode.data.api.model.events.Event;
+import com.chendoing.gitcode.data.api.model.Event;
 import com.chendoing.gitcode.injector.Activity;
 import com.chendoing.gitcode.presenters.views.MainView;
 import com.chendoing.gitcode.presenters.views.View;
@@ -30,12 +30,16 @@ public class MainActivityPresenter implements Presenter {
     public void askForNewFeed() {
         mIsEventRequestRunning = true;
         mainView.showIndicator();
+
         response.getUser()
                 .flatMap(user -> response.getUserReceivedEvents(user.getName()))
-                .subscribe(this::onEventReceived);
+                .subscribe(this::onEventReceived,this::onAuthFailed);
 
     }
 
+    private void onAuthFailed(Throwable throwable){
+        mainView.onAuthFailed();
+    }
     private void onEventReceived(List<Event> events){
         mIsEventRequestRunning = false;
         mainView.bindEventList(events);

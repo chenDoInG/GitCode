@@ -9,7 +9,9 @@ ext {
             retrofit      : "2.0.2",
             rxpreference  : "1.0.0",
             guava         : "19.0",
-            glide               : "3.7.0"
+            glide         : "3.7.0",
+            jodaTime      : "2.9.3",
+            jacksonDatatypeJoda: "2.7.4"
     ]
     configuration = [
             package          : "com.chendoing.gitcode",

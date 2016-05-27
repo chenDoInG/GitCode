@@ -1,6 +1,6 @@
 package com.chendoing.gitcode.presenters.views;
 
-import com.chendoing.gitcode.data.api.model.events.Event;
+import com.chendoing.gitcode.data.api.model.Event;
 
 import java.util.List;
 
@@ -20,4 +20,6 @@ public interface MainView extends View {
     void showIndicator();
 
     void hideIndicator();
+
+    void onAuthFailed();
 }

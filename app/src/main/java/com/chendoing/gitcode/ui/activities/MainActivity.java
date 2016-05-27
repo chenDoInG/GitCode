@@ -1,17 +1,17 @@
 package com.chendoing.gitcode.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.R;
-import com.chendoing.gitcode.data.api.model.events.Event;
+import com.chendoing.gitcode.data.api.model.Event;
 import com.chendoing.gitcode.injector.components.DaggerMainActivityComponent;
 import com.chendoing.gitcode.presenters.MainActivityPresenter;
 import com.chendoing.gitcode.presenters.views.MainView;
@@ -81,9 +81,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void bindEventList(List<Event> events) {
-        mUserReceivedEventListAdapter = new UserReceivedEventListAdapter(this,events, ((position, sharedView) -> {
-            showErrorView(((TextView) sharedView).getText().toString());
-        }));
+        mUserReceivedEventListAdapter = new UserReceivedEventListAdapter(
+                this,
+                events,
+                this::showErrorView,
+                this::showErrorView
+        );
         mRecyclerView.setAdapter(mUserReceivedEventListAdapter);
     }
 
@@ -109,5 +112,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void hideIndicator() {
         mEmptyIndicator.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onAuthFailed() {
+        Intent intent = new Intent(this,LoginActivity.class);
+        startActivity(intent);
     }
 }
