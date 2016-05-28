@@ -1,9 +1,7 @@
 package com.chendoing.gitcode.data.api.model;
 
-import java.util.List;
-
 /**
- * Created by chenDoInG on 16/5/24.
+ * {"access_token":"184703488b210a6ccd06bbf9db73eca271a009ba","token_type":"bearer","scope":""}
  */
 public class Token {
 
@@ -19,11 +17,11 @@ public class Token {
         this.scope = scope;
     }
 
-    public String getAccessToken() {
+    public String getAccess_token() {
         return access_token;
     }
 
-    public void setAccessToken(String access_token) {
+    public void setAccess_token(String access_token) {
         this.access_token = access_token;
     }
 

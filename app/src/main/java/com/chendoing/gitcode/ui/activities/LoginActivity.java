@@ -131,6 +131,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 hideLoadingView();
                 if (url.contains(REDIRECT_URI)) {
                     String code = HttpUrl.parse(url).queryParameter("code");
+                    System.out.println(code);
                     presenter.getAccessToken(code);
                 }
                 return false;

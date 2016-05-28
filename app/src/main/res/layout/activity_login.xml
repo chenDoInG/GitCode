@@ -16,7 +16,8 @@
         android:id="@+id/activity_login_webview"
         layout="@layout/view_webview"
         android:layout_gravity="center"
-        tools:ignore="IncludeLayoutParam"/>
+        tools:ignore="IncludeLayoutParam"
+        />
 
     <include
         android:id="@+id/activity_login_error_view"

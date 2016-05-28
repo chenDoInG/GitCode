@@ -5,6 +5,7 @@ import com.chendoing.gitcode.data.api.model.Event;
 import com.chendoing.gitcode.injector.Activity;
 import com.chendoing.gitcode.presenters.views.MainView;
 import com.chendoing.gitcode.presenters.views.View;
+import com.f2prateek.rx.preferences.Preference;
 
 import java.util.List;
 
@@ -22,9 +23,12 @@ public class MainActivityPresenter implements Presenter {
 
     private boolean mIsEventRequestRunning;
 
+    private Preference<String> token;
+
     @Inject
-    public MainActivityPresenter(GithubResponse reponse) {
+    public MainActivityPresenter(GithubResponse reponse, Preference<String> token) {
         this.response = reponse;
+        this.token = token;
     }
 
     public void askForNewFeed() {
@@ -33,14 +37,16 @@ public class MainActivityPresenter implements Presenter {
 
         response.getUser()
                 .flatMap(user -> response.getUserReceivedEvents(user.getName()))
-                .subscribe(this::onEventReceived,this::onAuthFailed);
+                .subscribe(this::onEventReceived, this::onAuthFailed);
 
     }
 
-    private void onAuthFailed(Throwable throwable){
+    private void onAuthFailed(Throwable throwable) {
+        token.delete();
         mainView.onAuthFailed();
     }
-    private void onEventReceived(List<Event> events){
+
+    private void onEventReceived(List<Event> events) {
         mIsEventRequestRunning = false;
         mainView.bindEventList(events);
         mainView.hideIndicator();

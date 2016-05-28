@@ -2,10 +2,12 @@ package com.chendoing.gitcode.injector.modules;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.data.api.GithubService;
+import com.chendoing.gitcode.data.api.model.User;
 import com.chendoing.gitcode.data.api.oauth.OauthInterceptor;
 import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
@@ -22,6 +24,7 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -66,9 +69,12 @@ public class AppModule {
         File cacheDir = new File(mGitCodeApplication.getCacheDir(), "http");
         Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
 
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return new OkHttpClient.Builder()
                 .cache(cache)
                 .addInterceptor(oauthInterceptor)
+                .addInterceptor(loggingInterceptor)
                 .build();
     }
 

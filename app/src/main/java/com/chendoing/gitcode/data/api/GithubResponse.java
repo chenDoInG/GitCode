@@ -20,7 +20,7 @@ import rx.Scheduler;
 public class GithubResponse {
 
     private final static String CLIENT_ID = "c7b408a20ee03b6a680a";
-    private final static String CLIENT_SECRET = "3c7e4190344cf637f1f7f7999f35caf837ddd058";
+    private final static String CLIENT_SECRET = "1fb7a531020d7b74f72b19b16c815ef4a732da42";
     private final static String REDIRECT_URI = "https://github.com/chenDoInG/CodeHub/callback";
     public final static String AUTH_URI =
             HttpUrl.parse("https://github.com/login/oauth/authorize")
