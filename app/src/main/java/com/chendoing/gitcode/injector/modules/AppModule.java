@@ -1,6 +1,5 @@
 package com.chendoing.gitcode.injector.modules;
 
-import android.app.Application;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
@@ -62,6 +61,12 @@ public class AppModule {
     @Singleton
     Preference<String> provideAccessToken(RxSharedPreferences prefs) {
         return prefs.getString("access-token");
+    }
+
+    @Provides
+    @Singleton
+    User providesUser(){
+        return new User();
     }
 
     @Provides

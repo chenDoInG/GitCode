@@ -24,13 +24,12 @@ import com.chendoing.gitcode.data.api.model.payload.PullRequestEvent;
 import com.chendoing.gitcode.data.api.model.payload.WatchEvent;
 import com.chendoing.gitcode.ui.OnClickableSpannedClickListener;
 import com.chendoing.gitcode.utils.TimeUtil;
-import com.google.common.base.Joiner;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserReceivedEventListAdapter.BaseEventViewHolder> {
 
@@ -149,7 +148,7 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
         @BindView(R.id.item_event_description)
         TextView eventDescription;
         @BindView(R.id.item_event_thumb)
-        CircleImageView eventThumb;
+        RoundedImageView eventThumb;
         @BindView(R.id.item_event_type)
         ImageView eventType;
         @BindView(R.id.item_event_time)

@@ -27,13 +27,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent;
-        if (TextUtils.isEmpty(token.get())) {
-            intent = new Intent(this, LoginActivity.class);
-        } else {
-            intent = new Intent(this, MainActivity.class);
-        }
-        startActivity(intent);
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 }

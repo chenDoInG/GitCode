@@ -2,6 +2,7 @@ package com.chendoing.gitcode.presenters;
 
 import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.data.api.model.Event;
+import com.chendoing.gitcode.data.api.model.User;
 import com.chendoing.gitcode.injector.Activity;
 import com.chendoing.gitcode.presenters.views.MainView;
 import com.chendoing.gitcode.presenters.views.View;
@@ -34,16 +35,20 @@ public class MainActivityPresenter implements Presenter {
 
     private List<Event> mEvents = new ArrayList<>();
 
+    private User mUser;
+
     @Inject
-    public MainActivityPresenter(GithubResponse reponse, Preference<String> token) {
+    public MainActivityPresenter(GithubResponse reponse, Preference<String> token, User user) {
         this.response = reponse;
         this.token = token;
         page = 1;
+        this.mUser = user;
     }
 
     public void askForEvent() {
         mIsEventRequestRunning = true;
         mainView.hideErrorView();
+        mainView.showIndicator(mUser);
         mSubscription = response.getUser()
                 .flatMap(user -> response.getUserReceivedEvents(user.getName(), 1))
                 .subscribe(this::onEventReceived, this::onNoEventError);
@@ -127,6 +132,7 @@ public class MainActivityPresenter implements Presenter {
         mainView.hideLoadingMoreEventIndicator();
         mainView.hideErrorView();
         mSubscription.unsubscribe();
+        mIsEventRequestRunning = false;
     }
 
     @Override

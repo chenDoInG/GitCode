@@ -25,6 +25,12 @@
         android:layout_gravity="center"
         tools:ignore="IncludeLayoutParam"/>
 
+    <include
+        android:id="@+id/activity_login_user"
+        layout="@layout/view_login_user"
+        android:layout_gravity="center"
+        tools:ignore="IncludeLayoutParam"/>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"

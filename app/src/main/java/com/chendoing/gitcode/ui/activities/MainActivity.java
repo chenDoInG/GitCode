@@ -10,21 +10,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.R;
 import com.chendoing.gitcode.data.api.model.Event;
+import com.chendoing.gitcode.data.api.model.User;
 import com.chendoing.gitcode.injector.components.DaggerMainActivityComponent;
 import com.chendoing.gitcode.presenters.MainActivityPresenter;
 import com.chendoing.gitcode.presenters.views.MainView;
 import com.chendoing.gitcode.ui.adapter.UserReceivedEventListAdapter;
 import com.chendoing.gitcode.ui.view.RecyclerInsetsDecoration;
-import com.jakewharton.rxbinding.view.RxView;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -39,12 +39,18 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @BindView(R.id.activity_main_toolbar)
     Toolbar mToolbar;
+
     @BindView(R.id.activity_main_recycler)
     RecyclerView mRecyclerView;
-    @BindView(R.id.activity_main_empty_indicator)
+    @BindView(R.id.activity_main_user_indicator)
     View mEmptyIndicator;
     @BindView(R.id.activity_main_error_view)
     View mErrorView;
+
+    @BindView(R.id.view_login_thumb)
+    RoundedImageView mUserThumb;
+    @BindView(R.id.view_login_desc)
+    TextView mUserName;
 
     UserReceivedEventListAdapter mUserReceivedEventListAdapter;
 
@@ -58,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
         initRecyclerView();
         initDependencyInjector();
         initPresenter();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.onPause();
     }
 
     private void initRecyclerView() {
@@ -143,11 +155,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
         mLoadingMoreEventIndicator.show();
     }
 
+
     @Override
-    public void showIndicator() {
-        if (mEmptyIndicator.getVisibility() != View.VISIBLE) {
-            mEmptyIndicator.setVisibility(View.VISIBLE);
-        }
+    public void showIndicator(User user) {
+
+        Glide.with(this)
+                .load(user.getAvatar_url())
+                .crossFade()
+                .into(mUserThumb);
+        mUserName.setText(getString(R.string.user_login_desc) + user.getLogin());
+        mEmptyIndicator.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -175,9 +192,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @OnClick(R.id.view_error_retry_button)
-    public void onRetryButtonCLick(View v){
+    public void onRetryButtonCLick(View v) {
         presenter.onErrorRetryRequest();
     }
+
     @Override
     public void onNoEventError() {
         TextView textView = ButterKnife.findById(mErrorView, R.id.view_error_message);

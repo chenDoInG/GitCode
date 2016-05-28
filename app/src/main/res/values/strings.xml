@@ -15,4 +15,5 @@
     <string name="item_event_type">item_event_type</string>
     <string name="loading_event_error">An error has occurred when loading events</string>
     <string name="no_more_event">There is no more event.</string>
+    <string name="user_login_desc">"logging in as "</string>
 </resources>

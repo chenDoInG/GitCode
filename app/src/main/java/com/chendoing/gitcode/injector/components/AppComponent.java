@@ -1,9 +1,7 @@
 package com.chendoing.gitcode.injector.components;
 
 import com.chendoing.gitcode.GitCodeApplication;
-import com.chendoing.gitcode.data.api.GithubResponse;
-import com.chendoing.gitcode.data.api.GithubService;
-import com.chendoing.gitcode.data.api.oauth.AccessToken;
+import com.chendoing.gitcode.data.api.model.User;
 import com.chendoing.gitcode.injector.modules.AppModule;
 import com.f2prateek.rx.preferences.Preference;
 
@@ -22,6 +20,8 @@ public interface AppComponent {
     GitCodeApplication app();
 
     Preference<String> token();
+
+    User user();
 
     Retrofit retrofit();
 

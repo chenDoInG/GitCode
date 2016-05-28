@@ -51,8 +51,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @BindView(R.id.activity_login_toolbar)
     Toolbar mToolbar;
 
-    private Snackbar mLoadingSnack;
+    @BindView(R.id.activity_login_user)
+    View mUserLoginView;
 
+    private Snackbar mLoadingSnack;
 
     private final static String REDIRECT_URI = "https://github.com/chenDoInG/CodeHub/callback";
 
@@ -116,9 +118,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void hideLoadingView() {
-        if (mIndicator.getVisibility() == View.VISIBLE) {
-            mIndicator.setVisibility(View.GONE);
-        }
+        mIndicator.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideWebView() {
+        mWebViewContainer.setVisibility(View.GONE);
     }
 
     private void showWebView() {
@@ -131,7 +136,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 hideLoadingView();
                 if (url.contains(REDIRECT_URI)) {
                     String code = HttpUrl.parse(url).queryParameter("code");
-                    System.out.println(code);
                     presenter.getAccessToken(code);
                 }
                 return false;

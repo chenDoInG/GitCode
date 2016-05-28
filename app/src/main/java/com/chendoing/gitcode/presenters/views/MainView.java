@@ -1,6 +1,7 @@
 package com.chendoing.gitcode.presenters.views;
 
 import com.chendoing.gitcode.data.api.model.Event;
+import com.chendoing.gitcode.data.api.model.User;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface MainView extends View {
 
     void hideErrorView();
 
-    void showIndicator();
+    void showIndicator(User user);
 
     void hideIndicator();
 

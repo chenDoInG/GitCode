@@ -1,7 +1,5 @@
 package com.chendoing.gitcode.presenters.views;
 
-import android.view.*;
-
 /**
  * Created by chenDoInG on 16/5/23.
  */
@@ -20,4 +18,6 @@ public interface LoginView extends View{
 
     void showLoadingView();
     void hideLoadingView();
+
+    void hideWebView();
 }
