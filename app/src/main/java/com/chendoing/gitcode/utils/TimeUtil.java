@@ -12,27 +12,22 @@ import org.joda.time.Years;
  */
 public class TimeUtil {
 
-    public static String getDuration(DateTime time){
-        int year = Years.yearsBetween(time, DateTime.now()).getYears();
-        int month = Months.monthsBetween(time,DateTime.now()).getMonths();
-        int day = Days.daysBetween(time,DateTime.now()).getDays();
-        int hour = Hours.hoursBetween(time,DateTime.now()).getHours();
-        int minute = Minutes.minutesBetween(time,DateTime.now()).getMinutes();
+    public static String getDuration(DateTime time) {
+        int day = Days.daysBetween(time, DateTime.now()).getDays();
+        int hour = Hours.hoursBetween(time, DateTime.now()).getHours();
+        int minute = Minutes.minutesBetween(time, DateTime.now()).getMinutes();
 
-        if(year>1){
-            return year+" years ago";
+        if (day > 27) {
+            return "on " + time.toString("d MMM");
         }
-        if(month>1){
-            return month+" months ago";
+        if (day > 1) {
+            return day + " days ago";
         }
-        if(day>1){
-            return day+" days ago";
+        if (hour > 1) {
+            return hour + " hours ago";
         }
-        if(hour>1){
-            return hour+" hours ago";
-        }
-        if(minute>1){
-            return minute+" minutes ago";
+        if (minute > 1) {
+            return minute + " minutes ago";
         }
         return "just now";
     }

@@ -34,7 +34,7 @@ public class LoginPresenter implements Presenter {
     }
 
     private void storeToken(Token token) {
-        accessToken.set(token.getAccessToken());
+        accessToken.set(token.getAccess_token());
         loginView.hideLoadingIndicator();
         loginView.goToMainView();
     }

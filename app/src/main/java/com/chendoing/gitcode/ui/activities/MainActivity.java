@@ -1,13 +1,17 @@
 package com.chendoing.gitcode.ui.activities;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.R;
@@ -17,8 +21,10 @@ import com.chendoing.gitcode.presenters.MainActivityPresenter;
 import com.chendoing.gitcode.presenters.views.MainView;
 import com.chendoing.gitcode.ui.adapter.UserReceivedEventListAdapter;
 import com.chendoing.gitcode.ui.view.RecyclerInsetsDecoration;
+import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -36,8 +42,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_empty_indicator)
     View mEmptyIndicator;
+    @BindView(R.id.activity_main_error_view)
+    View mErrorView;
 
     UserReceivedEventListAdapter mUserReceivedEventListAdapter;
+
+    private Snackbar mLoadingMoreEventIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +62,19 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new RecyclerInsetsDecoration(this));
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int visibleItemsCount = layoutManager.getChildCount();
+                int totalItemsCount = layoutManager.getItemCount();
+                int firstVisibleItemPos = layoutManager.findFirstVisibleItemPosition();
+
+                if (visibleItemsCount + firstVisibleItemPos >= totalItemsCount) {
+                    presenter.onEventsEndReached();
+                }
+            }
+        });
     }
 
     private void initToolbar() {
@@ -76,11 +99,18 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void showErrorView(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        TextView textView = ButterKnife.findById(mErrorView, R.id.view_error_message);
+        textView.setText(msg);
+        mErrorView.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void bindEventList(List<Event> events) {
+    public void hideErrorView() {
+        mErrorView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void bindEvents(List<Event> events) {
         mUserReceivedEventListAdapter = new UserReceivedEventListAdapter(
                 this,
                 events,
@@ -91,15 +121,25 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void showEventListView() {
-        if (mRecyclerView.getVisibility() != View.VISIBLE) {
-            mRecyclerView.setVisibility(View.VISIBLE);
-        }
+    public void updateEvents(int eventsAdd) {
+        mUserReceivedEventListAdapter.notifyItemChanged(
+                mUserReceivedEventListAdapter.getItemCount() + eventsAdd, eventsAdd
+        );
     }
 
     @Override
-    public void hideEventListView() {
+    public void onEventsEndReach() {
+        mLoadingMoreEventIndicator = Snackbar.make(mRecyclerView, getString(R.string.no_more_event), Snackbar.LENGTH_LONG);
+        mLoadingMoreEventIndicator.show();
+    }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void showLoadingErrorView() {
+        mLoadingMoreEventIndicator = Snackbar.make(mRecyclerView, getString(R.string.loading_event_error), Snackbar.LENGTH_LONG);
+        mLoadingMoreEventIndicator.setAction("Try again", listener -> presenter.onErrorRetryRequest());
+        mLoadingMoreEventIndicator.setActionTextColor(getColor(R.color.blue));
+        mLoadingMoreEventIndicator.show();
     }
 
     @Override
@@ -115,8 +155,34 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
+    public void showLoadingMoreEventIndicator() {
+        mLoadingMoreEventIndicator = Snackbar.make(mRecyclerView, getString(R.string.loading_more_event), Snackbar.LENGTH_INDEFINITE);
+        mLoadingMoreEventIndicator.show();
+    }
+
+    @Override
+    public void hideLoadingMoreEventIndicator() {
+        if (mLoadingMoreEventIndicator != null && mLoadingMoreEventIndicator.isShown()) {
+            mLoadingMoreEventIndicator.dismiss();
+        }
+    }
+
+    @Override
     public void onAuthFailed() {
-        Intent intent = new Intent(this,LoginActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onNoEventError() {
+        TextView textView = ButterKnife.findById(mErrorView, R.id.view_error_message);
+        textView.setText(getString(R.string.loading_event_error));
+        Button retry = ButterKnife.findById(mErrorView, R.id.view_error_retry_button);
+        RxView.clicks(retry)
+                .throttleFirst(3000L, TimeUnit.MILLISECONDS)
+                .subscribe(aVoid -> {
+                   presenter.onErrorRetryRequest();
+                });
+        mErrorView.setVisibility(View.VISIBLE);
     }
 }

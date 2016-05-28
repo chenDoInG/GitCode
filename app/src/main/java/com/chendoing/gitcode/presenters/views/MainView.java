@@ -9,17 +9,27 @@ import java.util.List;
  */
 public interface MainView extends View {
 
+    void bindEvents(List<Event> events);
+
+    void updateEvents(int eventsAdd);
+
+    void onEventsEndReach();
+
+    void showLoadingErrorView();
+
     void showErrorView(String msg);
 
-    void bindEventList(List<Event> events);
-
-    void showEventListView();
-
-    void hideEventListView();
+    void hideErrorView();
 
     void showIndicator();
 
     void hideIndicator();
 
+    void showLoadingMoreEventIndicator();
+
+    void hideLoadingMoreEventIndicator();
+
     void onAuthFailed();
+
+    void onNoEventError();
 }

@@ -7,9 +7,12 @@ import com.chendoing.gitcode.presenters.views.MainView;
 import com.chendoing.gitcode.presenters.views.View;
 import com.f2prateek.rx.preferences.Preference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import rx.Subscription;
 
 /**
  * Created by chenDoInG on 16/5/25.
@@ -25,20 +28,68 @@ public class MainActivityPresenter implements Presenter {
 
     private Preference<String> token;
 
+    private int page;
+
+    private Subscription mSubscription;
+
+    private List<Event> mEvents = new ArrayList<>();
+
     @Inject
     public MainActivityPresenter(GithubResponse reponse, Preference<String> token) {
         this.response = reponse;
         this.token = token;
+        page = 1;
     }
 
-    public void askForNewFeed() {
+    public void askForEvent() {
         mIsEventRequestRunning = true;
-        mainView.showIndicator();
+        mainView.hideErrorView();
+        mSubscription = response.getUser()
+                .flatMap(user -> response.getUserReceivedEvents(user.getName(), 1))
+                .subscribe(this::onEventReceived, this::onNoEventError);
+    }
 
-        response.getUser()
-                .flatMap(user -> response.getUserReceivedEvents(user.getName()))
-                .subscribe(this::onEventReceived, this::onAuthFailed);
+    private void onEventReceived(List<Event> events) {
+        mEvents.addAll(events);
+        mainView.bindEvents(mEvents);
+        mainView.hideIndicator();
+        mIsEventRequestRunning = false;
+    }
 
+    private void onNoEventError(Throwable throwable) {
+        mIsEventRequestRunning = false;
+        mainView.onNoEventError();
+    }
+
+    public void loadingMoreEvent() {
+        mIsEventRequestRunning = true;
+        page++;
+        mainView.showLoadingMoreEventIndicator();
+        mSubscription = response.getUser()
+                .flatMap(user -> response.getUserReceivedEvents(user.getName(), page))
+                .subscribe(this::onMoreEventReceived, this::onEventError);
+    }
+
+    private void onMoreEventReceived(List<Event> newEvents) {
+        mEvents.addAll(newEvents);
+        mainView.updateEvents(newEvents.size());
+        mainView.hideLoadingMoreEventIndicator();
+        mIsEventRequestRunning = false;
+
+    }
+
+    private void onEventError(Throwable throwable) {
+        mIsEventRequestRunning = false;
+        mainView.showLoadingErrorView();
+    }
+
+    public void onEventsEndReached() {
+        if (!mIsEventRequestRunning)
+            loadingMoreEvent();
+    }
+
+    private void showErrorMsg(Throwable throwable) {
+        mainView.showErrorView(throwable.getMessage());
     }
 
     private void onAuthFailed(Throwable throwable) {
@@ -46,15 +97,12 @@ public class MainActivityPresenter implements Presenter {
         mainView.onAuthFailed();
     }
 
-    private void onEventReceived(List<Event> events) {
-        mIsEventRequestRunning = false;
-        mainView.bindEventList(events);
-        mainView.hideIndicator();
-        mainView.showEventListView();
-    }
-
-    private void showErrorMsg(Event msg) {
-        mainView.showErrorView(msg.toString());
+    public void onErrorRetryRequest() {
+        if (mEvents.size() == 0) {
+            askForEvent();
+        } else {
+            loadingMoreEvent();
+        }
     }
 
     @Override
@@ -74,11 +122,14 @@ public class MainActivityPresenter implements Presenter {
 
     @Override
     public void onPause() {
-
+        mainView.hideIndicator();
+        mainView.hideLoadingMoreEventIndicator();
+        mainView.hideErrorView();
+        mSubscription.unsubscribe();
     }
 
     @Override
     public void onCreate() {
-        askForNewFeed();
+        askForEvent();
     }
 }
