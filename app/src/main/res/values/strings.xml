@@ -13,6 +13,6 @@
     <string name="activity_main_title">News</string>
     <string name="item_event_thumb">item_event_thumb</string>
     <string name="item_event_type">item_event_type</string>
-    <string name="loading_event_error">An error has occurred loading events</string>
+    <string name="loading_event_error">An error has occurred when loading events</string>
     <string name="no_more_event">There is no more event.</string>
 </resources>

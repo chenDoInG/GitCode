@@ -30,6 +30,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
@@ -173,16 +174,20 @@ public class MainActivity extends AppCompatActivity implements MainView {
         startActivity(intent);
     }
 
+    @OnClick(R.id.view_error_retry_button)
+    public void onRetryButtonCLick(View v){
+        presenter.onErrorRetryRequest();
+    }
     @Override
     public void onNoEventError() {
         TextView textView = ButterKnife.findById(mErrorView, R.id.view_error_message);
         textView.setText(getString(R.string.loading_event_error));
-        Button retry = ButterKnife.findById(mErrorView, R.id.view_error_retry_button);
-        RxView.clicks(retry)
-                .throttleFirst(3000L, TimeUnit.MILLISECONDS)
-                .subscribe(aVoid -> {
-                   presenter.onErrorRetryRequest();
-                });
+//        Button retry = ButterKnife.findById(mErrorView, R.id.view_error_retry_button);
+//        RxView.clicks(retry)
+//                .throttleFirst(3000L, TimeUnit.MILLISECONDS)
+//                .subscribe(aVoid -> {
+//                   presenter.onErrorRetryRequest();
+//                });
         mErrorView.setVisibility(View.VISIBLE);
     }
 }

@@ -58,6 +58,7 @@ public class MainActivityPresenter implements Presenter {
 
     private void onNoEventError(Throwable throwable) {
         mIsEventRequestRunning = false;
+        mainView.hideIndicator();
         mainView.onNoEventError();
     }
 
