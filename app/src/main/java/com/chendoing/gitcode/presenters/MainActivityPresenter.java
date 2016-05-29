@@ -1,5 +1,7 @@
 package com.chendoing.gitcode.presenters;
 
+import android.text.TextUtils;
+
 import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.data.api.model.Event;
 import com.chendoing.gitcode.data.api.model.User;
@@ -27,8 +29,6 @@ public class MainActivityPresenter implements Presenter {
 
     private boolean mIsEventRequestRunning;
 
-    private Preference<String> token;
-
     private int page;
 
     private Subscription mSubscription;
@@ -38,19 +38,21 @@ public class MainActivityPresenter implements Presenter {
     private User mUser;
 
     @Inject
-    public MainActivityPresenter(GithubResponse reponse, Preference<String> token, User user) {
+    public MainActivityPresenter(GithubResponse reponse, User user) {
         this.response = reponse;
-        this.token = token;
-        page = 1;
         this.mUser = user;
+        page = 1;
     }
 
     public void askForEvent() {
+        if (mUser == null || TextUtils.isEmpty(mUser.getLogin())) {
+            mainView.onAuthFailed();
+            return;
+        }
         mIsEventRequestRunning = true;
         mainView.hideErrorView();
         mainView.showIndicator(mUser);
-        mSubscription = response.getUser()
-                .flatMap(user -> response.getUserReceivedEvents(user.getName(), 1))
+        mSubscription = response.getUserReceivedEvents(mUser.getLogin(), 1)
                 .subscribe(this::onEventReceived, this::onNoEventError);
     }
 
@@ -63,6 +65,7 @@ public class MainActivityPresenter implements Presenter {
 
     private void onNoEventError(Throwable throwable) {
         mIsEventRequestRunning = false;
+        mainView.hideErrorView();
         mainView.hideIndicator();
         mainView.onNoEventError();
     }
@@ -71,8 +74,7 @@ public class MainActivityPresenter implements Presenter {
         mIsEventRequestRunning = true;
         page++;
         mainView.showLoadingMoreEventIndicator();
-        mSubscription = response.getUser()
-                .flatMap(user -> response.getUserReceivedEvents(user.getName(), page))
+        mSubscription = response.getUserReceivedEvents(mUser.getName(), page)
                 .subscribe(this::onMoreEventReceived, this::onEventError);
     }
 
@@ -86,6 +88,8 @@ public class MainActivityPresenter implements Presenter {
 
     private void onEventError(Throwable throwable) {
         mIsEventRequestRunning = false;
+        mainView.hideLoadingMoreEventIndicator();
+        mainView.hideErrorView();
         mainView.showLoadingErrorView();
     }
 
@@ -96,11 +100,6 @@ public class MainActivityPresenter implements Presenter {
 
     private void showErrorMsg(Throwable throwable) {
         mainView.showErrorView(throwable.getMessage());
-    }
-
-    private void onAuthFailed(Throwable throwable) {
-        token.delete();
-        mainView.onAuthFailed();
     }
 
     public void onErrorRetryRequest() {

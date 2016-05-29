@@ -174,7 +174,6 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
         }
 
         private SpannableStringBuilder getEventDesc(Event event) {
-            System.out.println(event);
             switch (event.getType()) {
                 case "ForkEvent":
                     return new EventSpannableStringBuilder.Builder()

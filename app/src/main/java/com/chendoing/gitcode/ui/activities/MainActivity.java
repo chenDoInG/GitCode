@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,9 +26,11 @@ import com.chendoing.gitcode.presenters.MainActivityPresenter;
 import com.chendoing.gitcode.presenters.views.MainView;
 import com.chendoing.gitcode.ui.adapter.UserReceivedEventListAdapter;
 import com.chendoing.gitcode.ui.view.RecyclerInsetsDecoration;
+import com.jakewharton.rxbinding.view.RxView;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -77,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @TargetApi(Build.VERSION_CODES.M)
     private void initMenu() {
-
         // Set the adapter for the list view
         mMenuTextView.setText("测试");
     }
@@ -174,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void showIndicator(User user) {
-
         Glide.with(this)
                 .load(user.getAvatar_url())
                 .crossFade()
@@ -207,21 +208,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
         startActivity(intent);
     }
 
-    @OnClick(R.id.view_error_retry_button)
-    public void onRetryButtonCLick(View v) {
-        presenter.onErrorRetryRequest();
-    }
-
     @Override
     public void onNoEventError() {
         TextView textView = ButterKnife.findById(mErrorView, R.id.view_error_message);
         textView.setText(getString(R.string.loading_event_error));
-//        Button retry = ButterKnife.findById(mErrorView, R.id.view_error_retry_button);
-//        RxView.clicks(retry)
-//                .throttleFirst(3000L, TimeUnit.MILLISECONDS)
-//                .subscribe(aVoid -> {
-//                   presenter.onErrorRetryRequest();
-//                });
+        Button retry = ButterKnife.findById(mErrorView, R.id.view_error_retry_button);
+        RxView.clicks(retry)
+                .throttleFirst(3000L, TimeUnit.MILLISECONDS)
+                .subscribe(aVoid -> {
+                   presenter.onErrorRetryRequest();
+                });
         mErrorView.setVisibility(View.VISIBLE);
     }
 }
