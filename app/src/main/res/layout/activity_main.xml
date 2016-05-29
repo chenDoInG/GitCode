@@ -1,6 +1,5 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
 
@@ -17,17 +16,17 @@
         tools:ignore="IncludeLayoutParam"
         />
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/layout_menu"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
+        android:layout_height="match_parent">
+        <!-- The main content view -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             >
 
             <android.support.v7.widget.Toolbar
@@ -46,16 +45,21 @@
                 tools:listitem="@layout/item_event"
                 />
 
-            <ProgressBar
-                android:id="@+id/activity_main_progress"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/spacing_small"
-                android:visibility="gone"
-                />
-
         </LinearLayout>
-    </android.support.design.widget.CoordinatorLayout>
+
+        <!-- The navigation drawer -->
+        <TextView
+            android:id="@+id/layout_menu_content"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="@color/white"
+            android:clickable="true"
+            android:choiceMode="singleChoice"
+            android:divider="@color/white"
+            android:dividerHeight="0dp"/>
+
+
+    </android.support.v4.widget.DrawerLayout>
+
 </merge>

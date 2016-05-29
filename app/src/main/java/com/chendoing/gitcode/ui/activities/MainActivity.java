@@ -4,12 +4,15 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +40,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Inject
     MainActivityPresenter presenter;
 
+    @BindView(R.id.layout_menu)
+    DrawerLayout mMenu;
+    @BindView(R.id.layout_menu_content)
+    TextView mMenuTextView;
+
     @BindView(R.id.activity_main_toolbar)
     Toolbar mToolbar;
 
@@ -61,9 +69,17 @@ public class MainActivity extends AppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         initUI();
         initToolbar();
+        initMenu();
         initRecyclerView();
         initDependencyInjector();
         initPresenter();
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void initMenu() {
+
+        // Set the adapter for the list view
+        mMenuTextView.setText("测试");
     }
 
     @Override
