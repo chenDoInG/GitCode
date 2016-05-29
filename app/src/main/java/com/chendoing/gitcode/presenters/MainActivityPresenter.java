@@ -8,7 +8,6 @@ import com.chendoing.gitcode.data.api.model.User;
 import com.chendoing.gitcode.injector.Activity;
 import com.chendoing.gitcode.presenters.views.MainView;
 import com.chendoing.gitcode.presenters.views.View;
-import com.f2prateek.rx.preferences.Preference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +73,7 @@ public class MainActivityPresenter implements Presenter {
         mIsEventRequestRunning = true;
         page++;
         mainView.showLoadingMoreEventIndicator();
-        mSubscription = response.getUserReceivedEvents(mUser.getName(), page)
+        mSubscription = response.getUserReceivedEvents(mUser.getLogin(), page)
                 .subscribe(this::onMoreEventReceived, this::onEventError);
     }
 
@@ -94,8 +93,12 @@ public class MainActivityPresenter implements Presenter {
     }
 
     public void onEventsEndReached() {
-        if (!mIsEventRequestRunning)
-            loadingMoreEvent();
+        if (!mIsEventRequestRunning) {
+            if (page > 10) {
+                mainView.onEventsEndReach();
+            } else
+                loadingMoreEvent();
+        }
     }
 
     private void showErrorMsg(Throwable throwable) {
