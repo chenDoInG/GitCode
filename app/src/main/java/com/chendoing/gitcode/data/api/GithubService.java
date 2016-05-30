@@ -29,7 +29,7 @@ public interface GithubService {
     Observable<List<Event>> getEvents();
 
     @GET("users/{userName}/received_events")
-    Observable<Response<List<Event>>> getUserReceivedEvents(@Path("userName") String userName, @Query("page")int page);
+    Observable<List<Event>> getUserReceivedEvents(@Path("userName") String userName, @Query("page")int page);
 
     @GET("user")
     Observable<User> getUser();

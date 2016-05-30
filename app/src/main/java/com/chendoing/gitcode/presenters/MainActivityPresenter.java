@@ -46,6 +46,21 @@ public class MainActivityPresenter implements Presenter {
         page = 1;
     }
 
+    public void refreshEvents() {
+        if (mUser == null || TextUtils.isEmpty(mUser.getLogin())) {
+            mainView.onAuthFailed();
+            return;
+        }
+        mainView.hideErrorView();
+        mSubscription = response.getUserReceivedEvents(mUser.getLogin(), 1)
+                .subscribe(this::onRefreshEventReceived);
+    }
+
+    private void onRefreshEventReceived(List<Event> refreshEvent) {
+        mEvents.addAll(0,refreshEvent);
+        mainView.refreshEvents();
+    }
+
     public void askForEvent() {
         if (mUser == null || TextUtils.isEmpty(mUser.getLogin())) {
             mainView.onAuthFailed();
@@ -58,8 +73,8 @@ public class MainActivityPresenter implements Presenter {
                 .subscribe(this::onEventReceived, this::onNoEventError);
     }
 
-    private void onEventReceived(Response<List<Event>> events) {
-        mEvents.addAll(events.body());
+    private void onEventReceived(List<Event> events) {
+        mEvents.addAll(events);
         mainView.bindEvents(mEvents);
         mainView.hideIndicator();
         mIsEventRequestRunning = false;
@@ -80,12 +95,16 @@ public class MainActivityPresenter implements Presenter {
                 .subscribe(this::onMoreEventReceived, this::onEventError);
     }
 
-    private void onMoreEventReceived(Response<List<Event>> newEvents) {
-        mEvents.addAll(newEvents.body());
-        mainView.updateEvents(newEvents.body().size());
-        mainView.hideLoadingMoreEventIndicator();
+    private void onMoreEventReceived(List<Event> newEvents) {
+        if (newEvents.size() == 0) {
+            isLastPage = true;
+            mainView.onEventsEndReach();
+        } else {
+            mEvents.addAll(newEvents);
+            mainView.updateEvents(newEvents.size());
+            mainView.hideLoadingMoreEventIndicator();
+        }
         mIsEventRequestRunning = false;
-
     }
 
     private void onEventError(Throwable throwable) {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @BindView(R.id.activity_main_toolbar)
     Toolbar mToolbar;
 
+    @BindView(R.id.activity_main_swiperefresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.activity_main_recycler)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_user_indicator)
@@ -112,6 +115,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 }
             }
         });
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mSwipeRefreshLayout.setRefreshing(true);
+            presenter.refreshEvents();
+        });
     }
 
     private void initToolbar() {
@@ -143,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void hideErrorView() {
         mErrorView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void refreshEvents() {
+        mUserReceivedEventListAdapter.notifyDataSetChanged();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -218,11 +231,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
         TextView textView = ButterKnife.findById(mErrorView, R.id.view_error_message);
         textView.setText(getString(R.string.loading_event_error));
         Button retry = ButterKnife.findById(mErrorView, R.id.view_error_retry_button);
-//        RxView.clicks(retry)
-//                .throttleFirst(3000L, TimeUnit.MILLISECONDS)
-//                .subscribe(aVoid -> {
-//                   presenter.onErrorRetryRequest();
-//                });
+        retry.setOnClickListener(listener -> presenter.onErrorRetryRequest());
+        RxView.clicks(retry)
+                .throttleFirst(3000L, TimeUnit.MILLISECONDS)
+                .subscribe(aVoid -> {
+                    presenter.onErrorRetryRequest();
+                });
         mErrorView.setVisibility(View.VISIBLE);
     }
 
