@@ -15,7 +15,7 @@
 
 
         <ImageView
-            android:id="@+id/item_pullrequest_type"
+            android:id="@+id/item_issuecomment_type"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="top|end"
@@ -24,34 +24,34 @@
             android:layout_marginTop="10dp"/>
 
         <TextView
-            android:id="@+id/item_pullrequest_time"
+            android:id="@+id/item_issuecomment_time"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_gravity="top|start"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/item_pullrequest_type"
+            android:layout_toRightOf="@+id/item_issuecomment_type"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textSize="14sp"/>
 
         <TextView
-            android:id="@+id/item_pullrequest_description"
+            android:id="@+id/item_issuecomment_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/item_pullrequest_time"
-            android:layout_toRightOf="@+id/item_pullrequest_type"
+            android:layout_below="@+id/item_issuecomment_time"
+            android:layout_toRightOf="@+id/item_issuecomment_type"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textSize="16sp"/>
 
         <com.makeramen.roundedimageview.RoundedImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/item_pullrequest_thumb"
+            android:id="@+id/item_issuecomment_thumb"
             android:layout_marginTop="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/item_pullrequest_description"
-            android:layout_toRightOf="@+id/item_pullrequest_type"
+            android:layout_below="@+id/item_issuecomment_description"
+            android:layout_toRightOf="@+id/item_issuecomment_type"
             android:paddingLeft="10dp"
             android:scaleType="fitStart"
             app:riv_corner_radius="5dip"
@@ -59,24 +59,13 @@
             app:riv_tile_mode="repeat"/>
 
         <TextView
-            android:id="@+id/item_pullrequest_comment"
+            android:id="@+id/item_issuecomment_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/item_pullrequest_description"
+            android:layout_below="@+id/item_issuecomment_description"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/item_pullrequest_thumb"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/item_pullrequest_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/item_pullrequest_comment"
-            android:layout_margin="5dp"
-            android:layout_toRightOf="@+id/item_pullrequest_thumb"
-            android:background="@drawable/rounded_corner"
-            android:padding="10dp"
+            android:layout_toRightOf="@+id/item_issuecomment_thumb"
             android:textSize="16sp"/>
 
     </RelativeLayout>

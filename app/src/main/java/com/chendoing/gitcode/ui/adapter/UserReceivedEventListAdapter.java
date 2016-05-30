@@ -18,7 +18,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chendoing.gitcode.R;
 import com.chendoing.gitcode.data.api.model.Event;
+import com.chendoing.gitcode.data.api.model.payload.CreateEvent;
 import com.chendoing.gitcode.data.api.model.payload.ForkEvent;
+import com.chendoing.gitcode.data.api.model.payload.IssueCommentEvent;
 import com.chendoing.gitcode.data.api.model.payload.MemberEvent;
 import com.chendoing.gitcode.data.api.model.payload.PullRequestEvent;
 import com.chendoing.gitcode.data.api.model.payload.WatchEvent;
@@ -31,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserReceivedEventListAdapter.TestViewHolder> {
+public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserReceivedEventListAdapter.EventViewHolder> {
 
     private final List<Event> mEvents;
     private final OnClickableSpannedClickListener mUserClickListener;
@@ -47,57 +49,61 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
     }
 
     @Override
-    public TestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return UserReceivedEvent.by(viewType).getViewHolder(mContext, parent);
-//        switch (viewType) {
-//            case 1:
-//                return new PullRequestViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event_pullrequest, parent, false
-//                ));
-//            case 2:
-//                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event, parent, false
-//                ));
-//            case 3:
-//                return new ForkEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event, parent, false
-//                ));
-//            case 4:
-//                return new MemberEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event, parent, false
-//                ));
-//            case 5:
-//                return new CreateEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event, parent, false
-//                ));
-//            default:
-//                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event, parent, false
-//                ));
-//        }
+    public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case 1:
+                return new PullRequestViewHolder(LayoutInflater.from(mContext).inflate(
+                        R.layout.item_event_pullrequest, parent, false
+                ));
+            case 2:
+                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
+                        R.layout.item_event, parent, false
+                ));
+            case 3:
+                return new ForkEventViewHolder(LayoutInflater.from(mContext).inflate(
+                        R.layout.item_event, parent, false
+                ));
+            case 4:
+                return new MemberEventViewHolder(LayoutInflater.from(mContext).inflate(
+                        R.layout.item_event, parent, false
+                ));
+            case 5:
+                return new CreateEventViewHolder(LayoutInflater.from(mContext).inflate(
+                        R.layout.item_event, parent, false
+                ));
+            case 6:
+                return new IssueCommentEventViewHolder(LayoutInflater.from(mContext).inflate(
+                        R.layout.item_event_issuecomment, parent, false
+                ));
+            default:
+                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
+                        R.layout.item_event, parent, false
+                ));
+        }
     }
 
     @Override
-    public void onBindViewHolder(TestViewHolder holder, int position) {
+    public void onBindViewHolder(EventViewHolder holder, int position) {
         holder.bindEvent(mEvents.get(position));
     }
 
     @Override
     public int getItemViewType(int position) {
-        return UserReceivedEvent.by(mEvents.get(position).getType()).getItemViewType();
-//        if (PullRequestEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
-//            return 1;
-//        }
-//        if (WatchEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
-//            return 2;
-//        }
-//        if (ForkEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
-//            return 3;
-//        if (MemberEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
-//            return 4;
-//        if (CreateEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
-//            return 5;
-//        return super.getItemViewType(position);
+        if (PullRequestEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
+            return 1;
+        }
+        if (WatchEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
+            return 2;
+        }
+        if (ForkEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
+            return 3;
+        if (MemberEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
+            return 4;
+        if (CreateEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
+            return 5;
+        if (IssueCommentEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
+            return 6;
+        return super.getItemViewType(position);
     }
 
     @Override
@@ -105,58 +111,10 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
         return mEvents.size();
     }
 
-    private enum UserReceivedEvent {
-        error(0) {
-            @Override
-            public TestViewHolder getViewHolder(final Context context, final ViewGroup parent) {
-                View itemView = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false);
-                return new TestViewHolder(itemView) {
-
-                    @BindView(R.id.item_event_parse_error_description)
-                    TextView desc;
-
-                    @Override
-                    public void bindEvent(Event event) {
-                        desc.setText(event.getActor().getLogin());
-                    }
-                };
-            }
-        };
-
-        UserReceivedEvent(int itemViewType) {
-            this.mItemViewType = itemViewType;
-        }
-
-        private int mItemViewType;
-
-        public abstract TestViewHolder getViewHolder(Context context, ViewGroup parent);
-
-        public int getItemViewType() {
-            return mItemViewType;
-        }
-
-        public static UserReceivedEvent by(String type) {
-            try {
-                return UserReceivedEvent.valueOf(type);
-            } catch (IllegalArgumentException ignore) {
-                return error;
-            }
-        }
-
-        public static UserReceivedEvent by(int itemViewType) {
-            for (UserReceivedEvent event : UserReceivedEvent.values()) {
-                if (event.getItemViewType() == itemViewType)
-                    return event;
-            }
-            return error;
-        }
-    }
-
     public static abstract class TestViewHolder extends RecyclerView.ViewHolder {
 
         public TestViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this.itemView);
         }
 
         public abstract void bindEvent(Event event);
@@ -223,6 +181,46 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
                             .type(pullRequestEvent.getPull_request().getDeletions() + " deletions")
                             .build()
             );
+        }
+    }
+
+    public class IssueCommentEventViewHolder extends EventViewHolder {
+
+        @BindView(R.id.item_issuecomment_comment)
+        TextView issueComment;
+        @BindView(R.id.item_issuecomment_description)
+        TextView issueDesc;
+        @BindView(R.id.item_issuecomment_thumb)
+        RoundedImageView issueThumb;
+        @BindView(R.id.item_issuecomment_time)
+        TextView issueTime;
+        @BindView(R.id.item_issuecomment_type)
+        ImageView issumeType;
+
+        public IssueCommentEventViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        @Override
+        public void bindEvent(Event event) {
+            IssueCommentEvent payload = (IssueCommentEvent) event.getPayload();
+            Glide.with(mContext)
+                    .load(event.getActor().getAvatar_url())
+                    .crossFade()
+                    .into(issueThumb);
+            Glide.with(mContext)
+                    .load(event.getPayload().getDrawable())
+                    .crossFade()
+                    .into(issumeType);
+            issueDesc.setText(new EventSpannableStringBuilder.Builder()
+                    .user(event.getActor().getLogin(), mUserClickListener)
+                    .type("commented on pull request")
+                    .repository(event.getRepo().getName(), mRepositoryClickListener)
+                    .build()
+            );
+            issueTime.setText(TimeUtil.getDuration(event.getCreated_at()));
+            issueComment.setText(payload.getComment().getBody());
         }
     }
 

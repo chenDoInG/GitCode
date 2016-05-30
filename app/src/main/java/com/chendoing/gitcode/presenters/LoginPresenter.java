@@ -8,9 +8,12 @@ import com.chendoing.gitcode.data.api.model.User;
 import com.chendoing.gitcode.injector.Activity;
 import com.chendoing.gitcode.presenters.views.LoginView;
 import com.chendoing.gitcode.presenters.views.View;
+import com.f2prateek.rx.preferences.BuildConfig;
 import com.f2prateek.rx.preferences.Preference;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 /**
  * Created by chenDoInG on 16/5/23.
@@ -57,6 +60,8 @@ public class LoginPresenter implements Presenter {
     }
 
     private void showErrorMsg(Throwable throwable) {
+        Timber.e(throwable.getMessage());
+        loginView.hideWebView();
         loginView.showErrorView(throwable.getMessage());
     }
 
@@ -83,7 +88,9 @@ public class LoginPresenter implements Presenter {
 
     @Override
     public void onCreate() {
-
+        if(BuildConfig.DEBUG){
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
 }
