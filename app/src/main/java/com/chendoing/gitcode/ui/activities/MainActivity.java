@@ -90,6 +90,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
         presenter.onPause();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.onStart();
+    }
+
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new RecyclerInsetsDecoration(this));
@@ -114,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private void initPresenter() {
         presenter.attachView(this);
-        presenter.onCreate();
     }
 
     private void initDependencyInjector() {
@@ -213,11 +218,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
         TextView textView = ButterKnife.findById(mErrorView, R.id.view_error_message);
         textView.setText(getString(R.string.loading_event_error));
         Button retry = ButterKnife.findById(mErrorView, R.id.view_error_retry_button);
-        RxView.clicks(retry)
-                .throttleFirst(3000L, TimeUnit.MILLISECONDS)
-                .subscribe(aVoid -> {
-                   presenter.onErrorRetryRequest();
-                });
+//        RxView.clicks(retry)
+//                .throttleFirst(3000L, TimeUnit.MILLISECONDS)
+//                .subscribe(aVoid -> {
+//                   presenter.onErrorRetryRequest();
+//                });
         mErrorView.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.view_error_retry_button)
+    public void onRetryButtonClick(View v) {
+        presenter.onErrorRetryRequest();
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import retrofit2.Response;
 import rx.Subscription;
 
 /**
@@ -36,6 +37,8 @@ public class MainActivityPresenter implements Presenter {
 
     private User mUser;
 
+    private boolean isLastPage;
+
     @Inject
     public MainActivityPresenter(GithubResponse reponse, User user) {
         this.response = reponse;
@@ -55,8 +58,8 @@ public class MainActivityPresenter implements Presenter {
                 .subscribe(this::onEventReceived, this::onNoEventError);
     }
 
-    private void onEventReceived(List<Event> events) {
-        mEvents.addAll(events);
+    private void onEventReceived(Response<List<Event>> events) {
+        mEvents.addAll(events.body());
         mainView.bindEvents(mEvents);
         mainView.hideIndicator();
         mIsEventRequestRunning = false;
@@ -77,9 +80,9 @@ public class MainActivityPresenter implements Presenter {
                 .subscribe(this::onMoreEventReceived, this::onEventError);
     }
 
-    private void onMoreEventReceived(List<Event> newEvents) {
-        mEvents.addAll(newEvents);
-        mainView.updateEvents(newEvents.size());
+    private void onMoreEventReceived(Response<List<Event>> newEvents) {
+        mEvents.addAll(newEvents.body());
+        mainView.updateEvents(newEvents.body().size());
         mainView.hideLoadingMoreEventIndicator();
         mIsEventRequestRunning = false;
 
@@ -94,7 +97,7 @@ public class MainActivityPresenter implements Presenter {
 
     public void onEventsEndReached() {
         if (!mIsEventRequestRunning) {
-            if (page > 10) {
+            if (isLastPage) {
                 mainView.onEventsEndReach();
             } else
                 loadingMoreEvent();
@@ -120,7 +123,7 @@ public class MainActivityPresenter implements Presenter {
 
     @Override
     public void onStart() {
-
+        askForEvent();
     }
 
     @Override
@@ -139,6 +142,5 @@ public class MainActivityPresenter implements Presenter {
 
     @Override
     public void onCreate() {
-        askForEvent();
     }
 }

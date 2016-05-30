@@ -8,4 +8,6 @@ public interface SplashView extends View {
     void goToMainActivity();
 
     void goToLoginActivity();
+
+    void showNetworkErrorView();
 }

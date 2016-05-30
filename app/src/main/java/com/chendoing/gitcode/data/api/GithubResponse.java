@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import okhttp3.HttpUrl;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Scheduler;
@@ -59,7 +60,7 @@ public class GithubResponse {
                 .observeOn(uiThread);
     }
 
-    public Observable<List<Event>> getUserReceivedEvents(String userName, int page) {
+    public Observable<Response<List<Event>>> getUserReceivedEvents(String userName, int page) {
         return githubService.getUserReceivedEvents(userName, page)
                 .subscribeOn(executorThread)
                 .observeOn(uiThread);

@@ -6,6 +6,7 @@ import com.chendoing.gitcode.data.api.model.User;
 
 import java.util.List;
 
+import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -28,7 +29,7 @@ public interface GithubService {
     Observable<List<Event>> getEvents();
 
     @GET("users/{userName}/received_events")
-    Observable<List<Event>> getUserReceivedEvents(@Path("userName") String userName,@Query("page")int page);
+    Observable<Response<List<Event>>> getUserReceivedEvents(@Path("userName") String userName, @Query("page")int page);
 
     @GET("user")
     Observable<User> getUser();

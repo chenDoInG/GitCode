@@ -31,7 +31,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserReceivedEventListAdapter.BaseEventViewHolder> {
+public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserReceivedEventListAdapter.TestViewHolder> {
 
     private final List<Event> mEvents;
     private final OnClickableSpannedClickListener mUserClickListener;
@@ -47,31 +47,57 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
     }
 
     @Override
-    public BaseEventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        switch (viewType) {
-            case 1:
-                return new PullRequestViewHolder(LayoutInflater.from(mContext).inflate(
-                        R.layout.item_event_pullrequest, parent, false
-                ));
-            default:
-                return new EventViewHolder(LayoutInflater.from(mContext).inflate(
-                        R.layout.item_event, parent, false
-                ));
-        }
+    public TestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return UserReceivedEvent.by(viewType).getViewHolder(mContext, parent);
+//        switch (viewType) {
+//            case 1:
+//                return new PullRequestViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event_pullrequest, parent, false
+//                ));
+//            case 2:
+//                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event, parent, false
+//                ));
+//            case 3:
+//                return new ForkEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event, parent, false
+//                ));
+//            case 4:
+//                return new MemberEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event, parent, false
+//                ));
+//            case 5:
+//                return new CreateEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event, parent, false
+//                ));
+//            default:
+//                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event, parent, false
+//                ));
+//        }
     }
 
     @Override
-    public void onBindViewHolder(BaseEventViewHolder holder, int position) {
+    public void onBindViewHolder(TestViewHolder holder, int position) {
         holder.bindEvent(mEvents.get(position));
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (PullRequestEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
-            return 1;
-        }
-        return super.getItemViewType(position);
+        return UserReceivedEvent.by(mEvents.get(position).getType()).getItemViewType();
+//        if (PullRequestEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
+//            return 1;
+//        }
+//        if (WatchEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
+//            return 2;
+//        }
+//        if (ForkEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
+//            return 3;
+//        if (MemberEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
+//            return 4;
+//        if (CreateEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
+//            return 5;
+//        return super.getItemViewType(position);
     }
 
     @Override
@@ -79,16 +105,74 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
         return mEvents.size();
     }
 
-    public abstract class BaseEventViewHolder extends RecyclerView.ViewHolder {
+    private enum UserReceivedEvent {
+        error(0) {
+            @Override
+            public TestViewHolder getViewHolder(final Context context, final ViewGroup parent) {
+                View itemView = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false);
+                return new TestViewHolder(itemView) {
 
-        public BaseEventViewHolder(View itemView) {
+                    @BindView(R.id.item_event_parse_error_description)
+                    TextView desc;
+
+                    @Override
+                    public void bindEvent(Event event) {
+                        desc.setText(event.getActor().getLogin());
+                    }
+                };
+            }
+        };
+
+        UserReceivedEvent(int itemViewType) {
+            this.mItemViewType = itemViewType;
+        }
+
+        private int mItemViewType;
+
+        public abstract TestViewHolder getViewHolder(Context context, ViewGroup parent);
+
+        public int getItemViewType() {
+            return mItemViewType;
+        }
+
+        public static UserReceivedEvent by(String type) {
+            try {
+                return UserReceivedEvent.valueOf(type);
+            } catch (IllegalArgumentException ignore) {
+                return error;
+            }
+        }
+
+        public static UserReceivedEvent by(int itemViewType) {
+            for (UserReceivedEvent event : UserReceivedEvent.values()) {
+                if (event.getItemViewType() == itemViewType)
+                    return event;
+            }
+            return error;
+        }
+    }
+
+    public static abstract class TestViewHolder extends RecyclerView.ViewHolder {
+
+        public TestViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this.itemView);
+        }
+
+        public abstract void bindEvent(Event event);
+
+    }
+
+    public abstract class EventViewHolder extends RecyclerView.ViewHolder {
+
+        public EventViewHolder(View itemView) {
             super(itemView);
         }
 
         public abstract void bindEvent(Event event);
     }
 
-    public class PullRequestViewHolder extends BaseEventViewHolder {
+    public class PullRequestViewHolder extends EventViewHolder {
 
         @BindView(R.id.item_pullrequest_comment)
         TextView pullRequestComment;
@@ -110,7 +194,6 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
 
         @Override
         public void bindEvent(Event event) {
-            System.out.println(event);
             PullRequestEvent pullRequestEvent = (PullRequestEvent) event.getPayload();
             Glide.with(mContext)
                     .load(event.getActor().getAvatar_url())
@@ -143,7 +226,76 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
         }
     }
 
-    public class EventViewHolder extends BaseEventViewHolder {
+    public class CreateEventViewHolder extends ActionEventViewHolder {
+
+        public CreateEventViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        public SpannableStringBuilder getEventDesc(Event event) {
+            return new EventSpannableStringBuilder.Builder()
+                    .user(event.getActor().getLogin(), mUserClickListener)
+                    .type("create repository")
+                    .repository(event.getRepo().getName(), mRepositoryClickListener)
+                    .build();
+        }
+    }
+
+    public class WatchEventViewHolder extends ActionEventViewHolder {
+
+        public WatchEventViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        public SpannableStringBuilder getEventDesc(Event event) {
+            WatchEvent watchEvent = (WatchEvent) event.getPayload();
+            return new EventSpannableStringBuilder.Builder()
+                    .user(event.getActor().getLogin(), mUserClickListener)
+                    .type(watchEvent.getAction())
+                    .repository(event.getRepo().getName(), mRepositoryClickListener)
+                    .build();
+        }
+    }
+
+    public class ForkEventViewHolder extends ActionEventViewHolder {
+
+        public ForkEventViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        public SpannableStringBuilder getEventDesc(Event event) {
+            return new EventSpannableStringBuilder.Builder()
+                    .user(event.getActor().getLogin(), mUserClickListener)
+                    .type("forked")
+                    .repository(event.getRepo().getName(), mRepositoryClickListener)
+                    .type("to")
+                    .repository(((ForkEvent) event.getPayload()).getForkee().getFull_name(), mRepositoryClickListener)
+                    .build();
+        }
+    }
+
+    public class MemberEventViewHolder extends ActionEventViewHolder {
+
+        public MemberEventViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        public SpannableStringBuilder getEventDesc(Event event) {
+            return new EventSpannableStringBuilder.Builder()
+                    .user(event.getActor().getLogin(), mUserClickListener)
+                    .type(((MemberEvent) event.getPayload()).getAction())
+                    .user(((MemberEvent) event.getPayload()).getMember().getLogin(), mUserClickListener)
+                    .type("to")
+                    .repository(event.getRepo().getName(), mRepositoryClickListener)
+                    .build();
+        }
+    }
+
+    public abstract class ActionEventViewHolder extends EventViewHolder {
 
         @BindView(R.id.item_event_description)
         TextView eventDescription;
@@ -154,7 +306,7 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
         @BindView(R.id.item_event_time)
         TextView eventTime;
 
-        public EventViewHolder(View itemView) {
+        public ActionEventViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -173,39 +325,7 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
             eventDescription.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
-        private SpannableStringBuilder getEventDesc(Event event) {
-            switch (event.getType()) {
-                case "ForkEvent":
-                    return new EventSpannableStringBuilder.Builder()
-                            .user(event.getActor().getLogin(), mUserClickListener)
-                            .type("forked")
-                            .repository(event.getRepo().getName(), mRepositoryClickListener)
-                            .type("to")
-                            .repository(((ForkEvent) event.getPayload()).getForkee().getFull_name(), mRepositoryClickListener)
-                            .build();
-                case "WatchEvent":
-                    return new EventSpannableStringBuilder.Builder()
-                            .user(event.getActor().getLogin(), mUserClickListener)
-                            .type(((WatchEvent) event.getPayload()).getAction())
-                            .repository(event.getRepo().getName(), mRepositoryClickListener)
-                            .build();
-                case "MemberEvent":
-                    return new EventSpannableStringBuilder.Builder()
-                            .user(event.getActor().getLogin(), mUserClickListener)
-                            .type(((MemberEvent) event.getPayload()).getAction())
-                            .user(((MemberEvent) event.getPayload()).getMember().getLogin(), mUserClickListener)
-                            .type("to")
-                            .repository(event.getRepo().getName(), mRepositoryClickListener)
-                            .build();
-                case "CreateEvent":
-                    return new EventSpannableStringBuilder.Builder()
-                            .user(event.getActor().getLogin(), mUserClickListener)
-                            .type("create repository")
-                            .repository(event.getRepo().getName(), mRepositoryClickListener)
-                            .build();
-            }
-            return new SpannableStringBuilder("json parse error");
-        }
+        public abstract SpannableStringBuilder getEventDesc(Event event);
 
     }
 }

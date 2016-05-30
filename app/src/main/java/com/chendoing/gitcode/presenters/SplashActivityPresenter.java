@@ -2,6 +2,7 @@ package com.chendoing.gitcode.presenters;
 
 import android.text.TextUtils;
 
+import com.chendoing.gitcode.BuildConfig;
 import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.data.api.model.User;
 import com.chendoing.gitcode.injector.Activity;
@@ -10,6 +11,10 @@ import com.chendoing.gitcode.presenters.views.View;
 import com.f2prateek.rx.preferences.Preference;
 
 import javax.inject.Inject;
+
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.HttpException;
+import timber.log.Timber;
 
 /**
  * Created by chenDoInG on 16/5/29.
@@ -36,7 +41,11 @@ public class SplashActivityPresenter implements Presenter {
 
     @Override
     public void onStart() {
-
+        if (TextUtils.isEmpty(mToken.get())) {
+            mSplashView.goToLoginActivity();
+        } else {
+            getUser();
+        }
     }
 
     @Override
@@ -51,11 +60,10 @@ public class SplashActivityPresenter implements Presenter {
 
     @Override
     public void onCreate() {
-        if (TextUtils.isEmpty(mToken.get())) {
-            mSplashView.goToLoginActivity();
-        } else {
-            getUser();
+        if(BuildConfig.DEBUG){
+            Timber.plant(new Timber.DebugTree());
         }
+        mSplashView.showNetworkErrorView();
     }
 
     private void onUserReceived(User user) {
@@ -64,8 +72,11 @@ public class SplashActivityPresenter implements Presenter {
         mSplashView.goToMainActivity();
     }
 
+    private void onLoginUserError(Throwable throwable){
+       Timber.e(throwable.toString());
+    }
     private void getUser() {
         mGithubResponse.getUser()
-                .subscribe(this::onUserReceived);
+                .subscribe(this::onUserReceived,this::onLoginUserError);
     }
 }

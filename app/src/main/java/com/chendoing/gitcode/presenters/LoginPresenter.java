@@ -67,6 +67,8 @@ public class LoginPresenter implements Presenter {
 
     @Override
     public void onStart() {
+        if (!TextUtils.isEmpty(accessToken.get()))
+            getUser();
     }
 
     @Override
@@ -81,8 +83,7 @@ public class LoginPresenter implements Presenter {
 
     @Override
     public void onCreate() {
-        if (!TextUtils.isEmpty(accessToken.get()))
-            getUser();
+
     }
 
 }

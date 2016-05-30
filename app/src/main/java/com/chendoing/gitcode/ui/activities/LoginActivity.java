@@ -68,9 +68,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         initPersonButtonListener();
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+        presenter.onStart();
+    }
     private void initPresenter() {
         presenter.attachView(this);
-        presenter.onCreate();
     }
 
     private void initDependencyInjects() {
