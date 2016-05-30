@@ -1,3 +1,3 @@
 # GitCode
 
-## Thanks to (thendillonb)[https://github.com/thedillonb/CodeHub]
+## Thanks to [thendillonb](https://github.com/thedillonb/CodeHub)
