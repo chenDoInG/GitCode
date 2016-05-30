@@ -16,4 +16,21 @@
     <string name="loading_event_error">An error has occurred when loading events</string>
     <string name="no_more_event">There is no more event.</string>
     <string name="user_login_desc">"logging in as "</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_notifications">Notifications</string>
+    <string name="menu_news">News</string>
+    <string name="menu_issues">Issues</string>
+    <string name="submenu_event">Events</string>
+    <string name="submenu_repositories">Repositories</string>
+    <string name="menu_owned">Owned</string>
+    <string name="menu_starred">Starred</string>
+    <string name="menu_trending">Trending</string>
+    <string name="menu_explore">Explore</string>
+    <string name="submenu_gists">Gists</string>
+    <string name="menu_gists">My Gists</string>
+    <string name="menu_public">Public</string>
+    <string name="submenu_setting">Info &amp; Preferences</string>
+    <string name="menu_setting">Settings</string>
+    <string name="menu_feedback">Feedback &amp; Support</string>
+    <string name="menu_accounts">Accounts</string>
 </resources>

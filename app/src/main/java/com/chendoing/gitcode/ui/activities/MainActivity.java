@@ -3,7 +3,9 @@ package com.chendoing.gitcode.ui.activities;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,9 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +39,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
@@ -46,8 +48,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @BindView(R.id.layout_menu)
     DrawerLayout mMenu;
-    @BindView(R.id.layout_menu_content)
-    TextView mMenuTextView;
+    @BindView(R.id.nav_view)
+    NavigationView mNavigationView;
 
     @BindView(R.id.activity_main_toolbar)
     Toolbar mToolbar;
@@ -84,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @TargetApi(Build.VERSION_CODES.M)
     private void initMenu() {
         // Set the adapter for the list view
-        mMenuTextView.setText("测试");
     }
 
     @Override
@@ -123,6 +124,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private void initToolbar() {
         mToolbar.setTitle(getString(R.string.activity_main_title));
+        mToolbar.setNavigationIcon(R.drawable.three_lines);
+        mToolbar.setNavigationOnClickListener(listener -> {
+            mMenu.openDrawer(GravityCompat.START);
+            mToolbar.setNavigationIcon(R.drawable.back);
+        });
     }
 
     private void initPresenter() {
@@ -150,6 +156,17 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void hideErrorView() {
         mErrorView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void bindMenu(User user) {
+        RoundedImageView navHeadThumb = ButterKnife.findById(mNavigationView.getHeaderView(0), R.id.nav_head_thumb);
+        TextView navHeadUserName = ButterKnife.findById(mNavigationView.getHeaderView(0), R.id.nav_head_username);
+        Glide.with(this)
+                .load(user.getAvatar_url())
+                .crossFade()
+                .into(navHeadThumb);
+        navHeadUserName.setText(user.getLogin());
     }
 
     @Override

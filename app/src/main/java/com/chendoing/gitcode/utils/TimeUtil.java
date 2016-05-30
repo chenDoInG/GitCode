@@ -20,13 +20,13 @@ public class TimeUtil {
         if (day > 27) {
             return "on " + time.toString("d MMM");
         }
-        if (day > 1) {
+        if (day >= 1) {
             return day + " days ago";
         }
-        if (hour > 1) {
+        if (hour >= 1) {
             return hour + " hours ago";
         }
-        if (minute > 1) {
+        if (minute >= 1) {
             return minute + " minutes ago";
         }
         return "just now";

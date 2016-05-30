@@ -142,6 +142,7 @@ public class MainActivityPresenter implements Presenter {
 
     @Override
     public void onStart() {
+        mainView.bindMenu(mUser);
         askForEvent();
     }
 

@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface MainView extends View {
 
+    void bindMenu(User user);
+
     void refreshEvents();
 
     void bindEvents(List<Event> events);
