@@ -64,7 +64,7 @@
             local:headerLayout="@layout/nav_head"
             local:menu="@menu/drawer_view"
             local:itemTextColor="@color/menu_state_list"
-            local:itemBackground="@color/colorPrimaryDark"
+            local:itemIconTint="@color/colorPrimaryDark"
             >
         </android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>

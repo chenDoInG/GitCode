@@ -15,10 +15,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.R;
 import com.chendoing.gitcode.data.api.model.Event;
@@ -39,7 +40,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
@@ -83,9 +83,15 @@ public class MainActivity extends AppCompatActivity implements MainView {
         initPresenter();
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private void initMenu() {
-        // Set the adapter for the list view
+        mNavigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.nav_news_fragment:
+                    Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
+
+            }
+            return true;
+        });
     }
 
     @Override
@@ -165,8 +171,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
         Glide.with(this)
                 .load(user.getAvatar_url())
                 .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(navHeadThumb);
         navHeadUserName.setText(user.getLogin());
+
     }
 
     @Override
@@ -213,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     public void showIndicator(User user) {
         Glide.with(this)
                 .load(user.getAvatar_url())
+                .placeholder(R.drawable.mega_icon_blacktocat)
                 .crossFade()
                 .into(mUserThumb);
         mUserName.setText(getString(R.string.user_login_desc) + user.getLogin());

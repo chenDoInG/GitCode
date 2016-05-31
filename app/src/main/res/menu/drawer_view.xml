@@ -11,6 +11,7 @@
             android:title="@string/menu_notifications"/>
         <item
             android:id="@+id/nav_news_fragment"
+            android:checked="true"
             android:icon="@drawable/mega_icon_notifications"
             android:title="@string/menu_news"/>
         <item
@@ -20,56 +21,64 @@
     </group>
     <item android:title="@string/submenu_event">
         <menu>
-            <item
-                android:id="@+id/nav_person_fragment"
-                android:icon="@drawable/mega_icon_person"
-                android:title="@string/error.default"/>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_person_fragment"
+                    android:icon="@drawable/mega_icon_person"
+                    android:title="@string/error.default"/>
+            </group>
         </menu>
     </item>
 
     <item android:title="@string/submenu_repositories">
         <menu>
-            <item
-                android:id="@+id/nav_owned_fragment"
-                android:icon="@drawable/mega_icon_public_repo"
-                android:title="@string/menu_owned"/>
-            <item
-                android:id="@+id/nav_starred_fragment"
-                android:icon="@drawable/mega_icon_star"
-                android:title="@string/menu_starred"/>
-            <item
-                android:id="@+id/nav_trending_fragment"
-                android:icon="@drawable/mega_icon_star"
-                android:title="@string/menu_trending"
-                />
-            <item
-                android:id="@+id/nav_explore_fragment"
-                android:icon="@drawable/mega_icon_star"
-                android:title="@string/menu_explore"/>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_owned_fragment"
+                    android:icon="@drawable/mega_icon_public_repo"
+                    android:title="@string/menu_owned"/>
+                <item
+                    android:id="@+id/nav_starred_fragment"
+                    android:icon="@drawable/mega_icon_star"
+                    android:title="@string/menu_starred"/>
+                <item
+                    android:id="@+id/nav_trending_fragment"
+                    android:icon="@drawable/mega_icon_star"
+                    android:title="@string/menu_trending"
+                    />
+                <item
+                    android:id="@+id/nav_explore_fragment"
+                    android:icon="@drawable/mega_icon_star"
+                    android:title="@string/menu_explore"/>
+            </group>
         </menu>
     </item>
     <item android:title="@string/submenu_gists">
         <menu>
-            <item
-                android:id="@+id/nav_gists_fragment"
-                android:icon="@drawable/mega_icon_person"
-                android:title="@string/menu_gists"/>
-            <item
-                android:id="@+id/nav_gist_starred_fragment"
-                android:icon="@drawable/mega_icon_star"
-                android:title="@string/menu_starred"/>
-            <item
-                android:id="@+id/nve_gist_public_fragment"
-                android:icon="@drawable/mega_icon_push"
-                android:title="@string/menu_public"/>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_gists_fragment"
+                    android:icon="@drawable/mega_icon_person"
+                    android:title="@string/menu_gists"/>
+                <item
+                    android:id="@+id/nav_gist_starred_fragment"
+                    android:icon="@drawable/mega_icon_star"
+                    android:title="@string/menu_starred"/>
+                <item
+                    android:id="@+id/nve_gist_public_fragment"
+                    android:icon="@drawable/mega_icon_push"
+                    android:title="@string/menu_public"/>
+            </group>
         </menu>
     </item>
     <item android:title="@string/submenu_event">
         <menu>
-            <item
-                android:id="@+id/nav_info_fragment"
-                android:icon="@drawable/mega_icon_person"
-                android:title="@string/menu_setting"/>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_info_fragment"
+                    android:icon="@drawable/mega_icon_person"
+                    android:title="@string/menu_setting"/>
+            </group>
         </menu>
     </item>
 </menu>
