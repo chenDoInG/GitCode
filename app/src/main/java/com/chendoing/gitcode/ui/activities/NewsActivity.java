@@ -3,20 +3,14 @@ package com.chendoing.gitcode.ui.activities;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -41,18 +35,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements MainView {
+public class NewsActivity extends BaseActivity implements MainView {
 
     @Inject
     MainActivityPresenter presenter;
-
-    @BindView(R.id.layout_menu)
-    DrawerLayout mMenu;
-    @BindView(R.id.nav_view)
-    NavigationView mNavigationView;
-
-    @BindView(R.id.activity_main_toolbar)
-    Toolbar mToolbar;
 
     @BindView(R.id.activity_main_swiperefresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -76,23 +62,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUI();
-        initToolbar();
-        initMenu();
         initRecyclerView();
         initDependencyInjector();
         initPresenter();
     }
 
-    private void initMenu() {
-        mNavigationView.setNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.nav_news_fragment:
-                    Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
-
-            }
-            return true;
-        });
-    }
 
     @Override
     protected void onPause() {
@@ -128,15 +102,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         });
     }
 
-    private void initToolbar() {
-        mToolbar.setTitle(getString(R.string.activity_main_title));
-        mToolbar.setNavigationIcon(R.drawable.three_lines);
-        mToolbar.setNavigationOnClickListener(listener -> {
-            mMenu.openDrawer(GravityCompat.START);
-            mToolbar.setNavigationIcon(R.drawable.back);
-        });
-    }
-
     private void initPresenter() {
         presenter.attachView(this);
     }
@@ -148,8 +113,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     private void initUI() {
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        setContentView(R.layout.activity_news);
     }
 
     @Override
@@ -221,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     public void showIndicator(User user) {
         Glide.with(this)
                 .load(user.getAvatar_url())
-                .placeholder(R.drawable.mega_icon_blacktocat)
                 .crossFade()
                 .into(mUserThumb);
         mUserName.setText(getString(R.string.user_login_desc) + user.getLogin());

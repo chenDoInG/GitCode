@@ -1,0 +1,35 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <include
+        android:id="@+id/activity_main_user_indicator"
+        layout="@layout/view_login_user"
+        android:layout_gravity="center"
+        tools:ignore="IncludeLayoutParam"/>
+
+    <include
+        android:id="@+id/activity_main_error_view"
+        layout="@layout/view_error"
+        android:layout_gravity="center"
+        tools:ignore="IncludeLayoutParam"
+        />
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/activity_main_swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_main_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.90"
+            android:clipToPadding="false"
+            tools:listitem="@layout/item_event"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</merge>

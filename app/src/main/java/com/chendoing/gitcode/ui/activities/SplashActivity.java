@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.R;
@@ -61,7 +59,7 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
 
     @Override
     public void goToMainActivity() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, NewsActivity.class));
     }
 
     @Override
