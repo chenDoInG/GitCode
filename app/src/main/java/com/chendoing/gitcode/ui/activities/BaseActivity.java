@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 /**
  * Created by chenDoInG on 16/5/31.
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
 
     DrawerLayout mDrawerLayout;
@@ -28,6 +28,14 @@ public class BaseActivity extends AppCompatActivity {
 
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mNavigationView.setCheckedItem(getUsingMenuItemId());
+    }
+
+    protected abstract int getUsingMenuItemId();
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -43,17 +51,20 @@ public class BaseActivity extends AppCompatActivity {
     private void initMenu() {
         mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
+                case R.id.nav_profile_fragment:
+                    goToOtherActivity(item.getItemId(), UserActivity.class);
                 case R.id.nav_explore_fragment:
                     break;
                 case R.id.nav_news_fragment:
+                    goToOtherActivity(item.getItemId(), NewsActivity.class);
                     break;
             }
             return true;
         });
     }
 
-    private void goToOtherActivity(Class<? extends BaseActivity> activity) {
-        if (this.getClass() != activity) {
+    private void goToOtherActivity(int itemId, Class<? extends BaseActivity> activity) {
+        if (getUsingMenuItemId() != itemId) {
             Intent intent = new Intent(this, activity);
             startActivity(intent);
             finish();

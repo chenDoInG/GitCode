@@ -80,6 +80,11 @@ public class NewsActivity extends BaseActivity implements MainView {
         presenter.onStart();
     }
 
+    @Override
+    protected int getUsingMenuItemId() {
+        return R.id.nav_news_fragment;
+    }
+
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new RecyclerInsetsDecoration(this));

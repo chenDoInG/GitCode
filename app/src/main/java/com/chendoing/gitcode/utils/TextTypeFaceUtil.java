@@ -12,7 +12,7 @@ public class TextTypeFaceUtil {
 
     public static Typeface getGithubTypeface(Context context) {
         if (mTypeface == null) {
-            mTypeface = Typeface.createFromAsset(context.getAssets(), "octiocons.ttf");
+            mTypeface = Typeface.createFromAsset(context.getAssets(), "octicons.ttf");
         }
         return mTypeface;
     }

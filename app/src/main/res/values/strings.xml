@@ -56,4 +56,11 @@
     <string name="icon_chevron_right" translatable="false">\uf078</string>
     <string name="icon_readme" translatable="false">\uf011</string>
     <string name="icon_website" translatable="false">\uf007</string>
+    <string name="followers">Followers</string>
+    <string name="icon_rss"></string>
+    <string name="menu_events">Events</string>
+    <string name="menu_organizations">Organizations</string>
+    <string name="icon_respositories"></string>
+    <string name="menu_repositories">Repositories</string>
+    <string name="icon_gists"></string>
 </resources>

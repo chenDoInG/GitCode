@@ -21,5 +21,6 @@
         </activity>
         <activity android:name=".ui.activities.NewsActivity"/>
         <activity android:name=".ui.activities.LoginActivity"/>
+        <activity android:name=".ui.activities.UserActivity"/>
     </application>
 </manifest>
