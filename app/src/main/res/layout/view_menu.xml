@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+
+    <!--<android.support.design.widget.NavigationView-->
+    <!--android:id="@+id/nav_view"-->
+    <!--android:layout_width="240dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="start"-->
+    <!--local:headerLayout="@layout/nav_head"-->
+    <!--local:itemIconTint="@color/colorPrimaryDark"-->
+    <!--local:itemTextColor="@color/menu_state_list"-->
+    <!--local:menu="@menu/drawer_view"-->
+    <!--/>-->
+    <ScrollView
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
+            >
+
+            <include layout="@layout/nav_head"/>
+
+            <RelativeLayout
+                android:id="@+id/menu_personal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_personal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_personal"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_personal"
+                    android:layout_toRightOf="@id/icon_personal"
+                    android:text="@string/menu_profile"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/menu_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_notifications"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_notifications"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_notifications"
+                    android:layout_toRightOf="@id/icon_notifications"
+                    android:text="@string/menu_notifications"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/menu_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_news"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_news"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_news"
+                    android:layout_toRightOf="@id/icon_news"
+                    android:text="@string/menu_news"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/menu_issues"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_issues"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_issue"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_issues"
+                    android:layout_toRightOf="@id/icon_issues"
+                    android:text="@string/menu_issues"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/colorPrimary"
+                android:text="@string/menu_events"/>
+
+            <RelativeLayout
+                android:id="@+id/menu_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/icon_user"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:riv_oval="true"/>
+
+                <TextView
+                    android:id="@+id/menu_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_user"
+                    android:layout_toRightOf="@id/icon_user"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/colorPrimary"
+                android:text="@string/menu_repositories"/>
+
+            <RelativeLayout
+                android:id="@+id/menu_owned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_owned"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_repo"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_owned"
+                    android:layout_toRightOf="@id/icon_owned"
+                    android:text="@string/menu_owned"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/menu_starred"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_starred"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_star"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_starred"
+                    android:layout_toRightOf="@id/icon_starred"
+                    android:text="@string/menu_starred"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/menu_trending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_trending"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_plus"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_trending"
+                    android:layout_toRightOf="@id/icon_trending"
+                    android:text="@string/menu_trending"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/menu_explore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_explore"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_language"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_explore"
+                    android:layout_toRightOf="@id/icon_explore"
+                    android:text="@string/menu_explore"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/colorPrimary"
+                android:text="@string/submenu_gists"/>
+
+            <RelativeLayout
+                android:id="@+id/menu_gists"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_gists"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_gists"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_gists"
+                    android:layout_toRightOf="@id/icon_gists"
+                    android:text="@string/menu_gists"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/menu_gists_starred"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_gists_starred"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_star"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_gists_starred"
+                    android:layout_toRightOf="@id/icon_gists_starred"
+                    android:text="@string/menu_starred"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/menu_public"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_public"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_language"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_public"
+                    android:layout_toRightOf="@id/icon_public"
+                    android:text="@string/menu_news"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/colorPrimary"
+                android:text="@string/submenu_setting"/>
+
+            <RelativeLayout
+                android:id="@+id/menu_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_setting"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_setting"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_setting"
+                    android:layout_toRightOf="@id/icon_setting"
+                    android:text="@string/menu_setting"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/menu_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_feedback"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_comment"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_feedback"
+                    android:layout_toRightOf="@id/icon_feedback"
+                    android:text="@string/menu_feedback"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/menu_accounts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:id="@+id/icon_accounts"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_personal"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/icon_accounts"
+                    android:layout_toRightOf="@id/icon_accounts"
+                    android:text="@string/menu_accounts"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <com.chendoing.gitcode.ui.widgets.GithubTypefaceTextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:text="@string/icon_right"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</merge>

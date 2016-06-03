@@ -60,23 +60,23 @@ public class SplashActivityPresenter implements Presenter {
 
     @Override
     public void onCreate() {
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
         mSplashView.showNetworkErrorView();
     }
 
     private void onUserReceived(User user) {
-        mUser.setLogin(user.getLogin());
-        mUser.setAvatar_url(user.getAvatar_url());
+        mUser.copy(user);
         mSplashView.goToMainActivity();
     }
 
-    private void onLoginUserError(Throwable throwable){
-       Timber.e(throwable.toString());
+    private void onLoginUserError(Throwable throwable) {
+        Timber.e(throwable.toString());
     }
+
     private void getUser() {
         mGithubResponse.getUser()
-                .subscribe(this::onUserReceived,this::onLoginUserError);
+                .subscribe(this::onUserReceived, this::onLoginUserError);
     }
 }

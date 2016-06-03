@@ -80,11 +80,6 @@ public class NewsActivity extends BaseActivity implements MainView {
         presenter.onStart();
     }
 
-    @Override
-    protected int getUsingMenuItemId() {
-        return R.id.nav_news_fragment;
-    }
-
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new RecyclerInsetsDecoration(this));
@@ -131,19 +126,6 @@ public class NewsActivity extends BaseActivity implements MainView {
     @Override
     public void hideErrorView() {
         mErrorView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void bindMenu(User user) {
-        RoundedImageView navHeadThumb = ButterKnife.findById(mNavigationView.getHeaderView(0), R.id.nav_head_thumb);
-        TextView navHeadUserName = ButterKnife.findById(mNavigationView.getHeaderView(0), R.id.nav_head_username);
-        Glide.with(this)
-                .load(user.getAvatar_url())
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(navHeadThumb);
-        navHeadUserName.setText(user.getLogin());
-
     }
 
     @Override

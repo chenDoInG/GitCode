@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,28 +18,34 @@
             android:padding="10dp">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:id="@+id/activity_user_thumb"
+                android:layout_width="99dp"
+                android:layout_height="99dp"
                 android:layout_gravity="center"
                 android:padding="10dp"
-                android:src="@drawable/dotcom_mascot"/>
+                android:src="@drawable/dotcom_mascot"
+                app:riv_oval="true"
+                app:riv_border_width="2dp"
+                app:riv_border_color="@color/white"
+                />
 
             <TextView
+                android:id="@+id/activity_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="10dp"
-                android:text="@string/app_name"/>
+                />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:divider="@drawable/divider"
             android:orientation="horizontal"
-            android:showDividers="middle"
-            >
+            android:showDividers="middle">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -49,9 +56,11 @@
                 >
 
                 <TextView
+                    android:id="@+id/activity_user_follower"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="11"/>
+                    android:padding="5dp"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -68,14 +77,16 @@
                 >
 
                 <TextView
+                    android:id="@+id/activity_user_following"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="11"/>
+                    android:padding="5dp"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/followers"/>
+                    android:text="@string/following"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -95,13 +106,13 @@
                 />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_toEndOf="@id/icon_event"
                 android:layout_toRightOf="@id/icon_event"
                 android:text="@string/menu_events"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 />
 
             <ImageView
@@ -110,8 +121,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_margin="10dp"
-                android:src="@drawable/forward"
-                />
+                android:contentDescription="@string/go_to_new_activity"
+                android:src="@drawable/forward"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -130,23 +141,25 @@
                 />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_toEndOf="@id/icon_organizations"
                 android:layout_toRightOf="@id/icon_organizations"
                 android:text="@string/menu_organizations"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_margin="10dp"
-                android:src="@drawable/forward"
-                />
+                android:contentDescription="@string/go_to_new_activity"
+                android:src="@drawable/forward"/>
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,23 +176,25 @@
                 />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_toEndOf="@id/icon_repositories"
                 android:layout_toRightOf="@id/icon_repositories"
                 android:text="@string/menu_repositories"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_margin="10dp"
-                android:src="@drawable/forward"
-                />
+                android:contentDescription="@string/go_to_new_activity"
+                android:src="@drawable/forward"/>
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -196,7 +211,7 @@
                 />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_toEndOf="@id/icon_gists"
@@ -208,10 +223,11 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_margin="10dp"
-                android:src="@drawable/forward"
-                />
+                android:contentDescription="@string/go_to_new_activity"
+                android:src="@drawable/forward"/>
         </RelativeLayout>
 
     </LinearLayout>

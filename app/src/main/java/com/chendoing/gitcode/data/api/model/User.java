@@ -278,6 +278,38 @@ public class User {
         this.updated_at = updated_at;
     }
 
+    public void copy(User user){
+        setAvatar_url(user.getAvatar_url());
+        setBio(user.getBio());
+        setBlog(user.getBlog());
+        setCompany(user.getCompany());
+        setCreated_at(user.getCreated_at());
+        setEmail(user.getEmail());
+        setEvents_url(user.getEvents_url());
+        setFollowers(user.getFollowers());
+        setFollowing(user.getFollowing());
+        setFollowers_url(user.getFollowers_url());
+        setFollowing_url(user.getFollowing_url());
+        setGists_url(user.getGists_url());
+        setGravatar_id(user.getGravatar_id());
+        setHireable(user.isHireable());
+        setHtml_url(user.getHtml_url());
+        setId(user.getId());
+        setLocation(user.getLocation());
+        setLogin(user.getLogin());
+        setName(user.getName());
+        setOrganizations_url(user.getOrganizations_url());
+        setPublic_gists(user.getPublic_gists());
+        setPublic_repos(user.getPublic_repos());
+        setReceived_events_url(user.getReceived_events_url());
+        setRepos_url(user.getRepos_url());
+        setSite_admin(user.isSite_admin());
+        setSubscriptions_url(user.getSubscriptions_url());
+        setStarred_url(user.getStarred_url());
+        setType(user.getType());
+        setUpdated_at(user.getUpdated_at());
+        setUrl(user.getUrl());
+    }
     @Override
     public String toString() {
         return "User{" +

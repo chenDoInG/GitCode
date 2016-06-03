@@ -31,7 +31,7 @@
     <string name="menu_public">Public</string>
     <string name="submenu_setting">Info &amp; Preferences</string>
     <string name="menu_setting">Settings</string>
-    <string name="menu_feedback">Feedback &amp; Support</string>
+    <string name="menu_feedback">Feedback</string>
     <string name="menu_accounts">Accounts</string>
 
     <string name="icon_star" translatable="false">\uf02a</string>
@@ -63,4 +63,13 @@
     <string name="icon_respositories"></string>
     <string name="menu_repositories">Repositories</string>
     <string name="icon_gists"></string>
+    <string name="go_to_new_activity">go to new acitivity</string>
+    <string name="following">Following</string>
+    <string name="icon_personal"></string>
+    <string name="icon_notifications"></string>
+    <string name="icon_right"></string>
+    <string name="icon_news"></string>
+    <string name="icon_plus"></string>
+    <string name="icon_setting"></string>
+    <string name="icon_comment"></string>
 </resources>

@@ -26,14 +26,8 @@
             android:layout_below="@+id/activity_base_toolbar"/>
     </RelativeLayout>
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        local:headerLayout="@layout/nav_head"
-        local:itemIconTint="@color/colorPrimaryDark"
-        local:itemTextColor="@color/menu_state_list"
-        local:menu="@menu/drawer_view"
+    <include
+        android:id="@+id/menu"
+        layout="@layout/view_menu"
         />
 </android.support.v4.widget.DrawerLayout>

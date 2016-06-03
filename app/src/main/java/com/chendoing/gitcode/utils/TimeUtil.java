@@ -13,9 +13,9 @@ import org.joda.time.Years;
 public class TimeUtil {
 
     public static String getDuration(DateTime time) {
-        int day = Days.daysBetween(time, DateTime.now()).getDays();
-        int hour = Hours.hoursBetween(time, DateTime.now()).getHours();
-        int minute = Minutes.minutesBetween(time, DateTime.now()).getMinutes();
+        int day = Math.abs(Days.daysBetween(time, DateTime.now()).getDays());
+        int hour = Math.abs(Hours.hoursBetween(time, DateTime.now()).getHours());
+        int minute = Math.abs(Minutes.minutesBetween(time, DateTime.now()).getMinutes());
 
         if (day > 27) {
             return "on " + time.toString("d MMM");
