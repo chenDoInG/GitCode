@@ -1,6 +1,7 @@
 package com.chendoing.gitcode.data.api;
 
 import com.chendoing.gitcode.data.api.model.Event;
+import com.chendoing.gitcode.data.api.model.Repository;
 import com.chendoing.gitcode.data.api.model.Token;
 import com.chendoing.gitcode.data.api.model.User;
 
@@ -29,8 +30,11 @@ public interface GithubService {
     Observable<List<Event>> getEvents();
 
     @GET("users/{userName}/received_events")
-    Observable<List<Event>> getUserReceivedEvents(@Path("userName") String userName, @Query("page")int page);
+    Observable<List<Event>> getUserReceivedEvents(@Path("userName") String userName, @Query("page") int page);
 
     @GET("user")
     Observable<User> getUser();
+
+    @GET("repos/{userName}/{repo}")
+    Observable<Repository> getUserRepository(@Path("userName") String userName, @Path("repo") String repo);
 }

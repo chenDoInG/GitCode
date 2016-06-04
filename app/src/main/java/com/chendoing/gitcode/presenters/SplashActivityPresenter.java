@@ -60,9 +60,6 @@ public class SplashActivityPresenter implements Presenter {
 
     @Override
     public void onCreate() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        }
         mSplashView.showNetworkErrorView();
     }
 

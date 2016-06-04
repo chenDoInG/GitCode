@@ -67,7 +67,8 @@ public class Event {
             @JsonSubTypes.Type(value = PullRequestReviewCommentEvent.class, name = "PullRequestReviewCommentEvent"),
             @JsonSubTypes.Type(value = PushEvent.class, name = "PushEvent"),
             @JsonSubTypes.Type(value = RepositoryEvent.class, name = "RepositoryEvent"),
-            @JsonSubTypes.Type(value = TeamAddEvent.class, name = "TeamAddEvent")
+            @JsonSubTypes.Type(value = TeamAddEvent.class, name = "TeamAddEvent"),
+            @JsonSubTypes.Type(value = WatchEvent.class,name = "PublicEvent")
     })
     private Payloaded payload;
 

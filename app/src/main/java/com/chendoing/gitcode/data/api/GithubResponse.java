@@ -1,6 +1,7 @@
 package com.chendoing.gitcode.data.api;
 
 import com.chendoing.gitcode.data.api.model.Event;
+import com.chendoing.gitcode.data.api.model.Repository;
 import com.chendoing.gitcode.data.api.model.Token;
 import com.chendoing.gitcode.data.api.model.User;
 
@@ -62,6 +63,12 @@ public class GithubResponse {
 
     public Observable<List<Event>> getUserReceivedEvents(String userName, int page) {
         return githubService.getUserReceivedEvents(userName, page)
+                .subscribeOn(executorThread)
+                .observeOn(uiThread);
+    }
+
+    public Observable<Repository> getUserRepository(String userName, String repo) {
+        return githubService.getUserRepository(userName, repo)
                 .subscribeOn(executorThread)
                 .observeOn(uiThread);
     }

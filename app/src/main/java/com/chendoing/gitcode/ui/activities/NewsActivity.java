@@ -13,21 +13,20 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.R;
+import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.data.api.model.Event;
+import com.chendoing.gitcode.data.api.model.Repository;
 import com.chendoing.gitcode.data.api.model.User;
 import com.chendoing.gitcode.injector.components.DaggerMainActivityComponent;
-import com.chendoing.gitcode.presenters.MainActivityPresenter;
-import com.chendoing.gitcode.presenters.views.MainView;
+import com.chendoing.gitcode.presenters.NewsActivityPresenter;
+import com.chendoing.gitcode.presenters.views.NewsView;
 import com.chendoing.gitcode.ui.adapter.UserReceivedEventListAdapter;
 import com.chendoing.gitcode.ui.view.RecyclerInsetsDecoration;
-import com.jakewharton.rxbinding.view.RxView;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -35,10 +34,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NewsActivity extends BaseActivity implements MainView {
+public class NewsActivity extends BaseActivity implements NewsView {
 
     @Inject
-    MainActivityPresenter presenter;
+    NewsActivityPresenter presenter;
+    @Inject
+    GithubResponse mGithubResponse;
 
     @BindView(R.id.activity_main_swiperefresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -140,7 +141,8 @@ public class NewsActivity extends BaseActivity implements MainView {
                 this,
                 events,
                 this::showErrorView,
-                this::showErrorView
+                this::showErrorView,
+                mGithubResponse
         );
         mRecyclerView.setAdapter(mUserReceivedEventListAdapter);
     }
@@ -202,18 +204,33 @@ public class NewsActivity extends BaseActivity implements MainView {
         startActivity(intent);
     }
 
+    @BindView(R.id.view_error_retry_button)
+    Button mButton;
+
     @Override
     public void onNoEventError() {
         TextView textView = ButterKnife.findById(mErrorView, R.id.view_error_message);
         textView.setText(getString(R.string.loading_event_error));
-        Button retry = ButterKnife.findById(mErrorView, R.id.view_error_retry_button);
-        retry.setOnClickListener(listener -> presenter.onErrorRetryRequest());
-        RxView.clicks(retry)
-                .throttleFirst(3000L, TimeUnit.MILLISECONDS)
-                .subscribe(aVoid -> {
-                    presenter.onErrorRetryRequest();
-                });
+//        Button retry = ButterKnife.findById(mErrorView, R.id.view_error_retry_button);
+//        retry.setOnClickListener(listener -> presenter.onErrorRetryRequest());
+//        RxView.clicks(retry)
+//                .throttleFirst(3000L, TimeUnit.MILLISECONDS)
+//                .subscribe(aVoid -> {
+//                    presenter.onErrorRetryRequest();
+//                });
+        mButton.setOnClickListener(listener -> presenter.onErrorRetryRequest());
         mErrorView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showEventView() {
+        if (mSwipeRefreshLayout != null && mSwipeRefreshLayout.getVisibility() == View.GONE)
+            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEventView() {
+        mSwipeRefreshLayout.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.view_error_retry_button)

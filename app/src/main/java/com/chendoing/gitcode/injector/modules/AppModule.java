@@ -3,6 +3,7 @@ package com.chendoing.gitcode.injector.modules;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.chendoing.gitcode.BuildConfig;
 import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.data.api.GithubService;
@@ -30,6 +31,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.jakewharton.byteunits.DecimalByteUnit.MEGABYTES;
@@ -41,6 +43,9 @@ public class AppModule {
 
     public AppModule(GitCodeApplication gitCodeApplication) {
         this.mGitCodeApplication = gitCodeApplication;
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
     static final int DISK_CACHE_SIZE = (int) MEGABYTES.toBytes(50);

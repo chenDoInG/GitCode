@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chendoing.gitcode.R;
+import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.data.api.model.Event;
 import com.chendoing.gitcode.data.api.model.payload.CreateEvent;
 import com.chendoing.gitcode.data.api.model.payload.ForkEvent;
@@ -24,28 +25,39 @@ import com.chendoing.gitcode.data.api.model.payload.IssueCommentEvent;
 import com.chendoing.gitcode.data.api.model.payload.MemberEvent;
 import com.chendoing.gitcode.data.api.model.payload.PullRequestEvent;
 import com.chendoing.gitcode.data.api.model.payload.WatchEvent;
+import com.chendoing.gitcode.presenters.NewsActivityPresenter;
 import com.chendoing.gitcode.ui.OnClickableSpannedClickListener;
+import com.chendoing.gitcode.ui.OnLoadingRepositoryListener;
 import com.chendoing.gitcode.utils.TimeUtil;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserReceivedEventListAdapter.EventViewHolder> {
 
     private final List<Event> mEvents;
     private final OnClickableSpannedClickListener mUserClickListener;
     private final OnClickableSpannedClickListener mRepositoryClickListener;
+    private final GithubResponse mGithubResponse;
 
     private Context mContext;
 
-    public UserReceivedEventListAdapter(Context context, List<Event> events, OnClickableSpannedClickListener userClickListener, OnClickableSpannedClickListener repositoryClickListener) {
+    public UserReceivedEventListAdapter(Context context,
+                                        List<Event> events,
+                                        OnClickableSpannedClickListener userClickListener,
+                                        OnClickableSpannedClickListener repositoryClickListener,
+                                        GithubResponse presenter) {
         mEvents = events;
         mContext = context;
         mUserClickListener = userClickListener;
         mRepositoryClickListener = repositoryClickListener;
+        mGithubResponse = presenter;
     }
 
     @Override
@@ -73,6 +85,10 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
                 ));
             case 6:
                 return new IssueCommentEventViewHolder(LayoutInflater.from(mContext).inflate(
+                        R.layout.item_event_issuecomment, parent, false
+                ));
+            case 7:
+                return new PublicEventViewHolder(LayoutInflater.from(mContext).inflate(
                         R.layout.item_event_issuecomment, parent, false
                 ));
             default:
@@ -103,6 +119,8 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
             return 5;
         if (IssueCommentEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
             return 6;
+        if ("PublicEvent".equals(mEvents.get(position).getType()))
+            return 7;
         return super.getItemViewType(position);
     }
 
@@ -223,6 +241,39 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
             issueComment.setText(payload.getComment().getBody());
         }
     }
+
+    public class PublicEventViewHolder extends IssueCommentEventViewHolder {
+
+        public PublicEventViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        public void bindEvent(Event event) {
+            Timber.d(event.toString());
+            Glide.with(mContext)
+                    .load(event.getActor().getAvatar_url())
+                    .crossFade()
+                    .into(issueThumb);
+            Glide.with(mContext)
+                    .load(event.getPayload().getDrawable())
+                    .crossFade()
+                    .into(issumeType);
+            issueDesc.setText(new EventSpannableStringBuilder.Builder()
+                    .user(event.getActor().getLogin(), mUserClickListener)
+                    .type("made")
+                    .repository(event.getRepo().getName(), mRepositoryClickListener)
+                    .type("public")
+                    .build()
+            );
+            issueTime.setText(TimeUtil.getDuration(event.getCreated_at()));
+            List<String> nameAndRepo = Lists.newArrayList(Splitter.on("/").split(event.getRepo().getName()));
+            mGithubResponse.getUserRepository(nameAndRepo.get(0), nameAndRepo.get(1))
+                    .subscribe(repository -> issueComment.setText(repository.getDescription()));
+
+        }
+    }
+
 
     public class CreateEventViewHolder extends ActionEventViewHolder {
 

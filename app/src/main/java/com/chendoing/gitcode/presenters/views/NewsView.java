@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by chenDoInG on 16/5/25.
  */
-public interface MainView extends View {
+public interface NewsView extends View {
 
     void refreshEvents();
 
@@ -35,4 +35,8 @@ public interface MainView extends View {
     void onAuthFailed();
 
     void onNoEventError();
+
+    void showEventView();
+
+    void hideEventView();
 }

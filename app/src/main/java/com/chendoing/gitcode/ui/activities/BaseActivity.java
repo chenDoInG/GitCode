@@ -44,6 +44,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     TextView mNavHeadUserName;
     @BindView(R.id.menu_personal)
     RelativeLayout mMenuPersonal;
+    @BindView(R.id.menu_accounts)
+    RelativeLayout mMenuAccounts;
+    @BindView(R.id.menu_explore)
+    RelativeLayout mMenuExplore;
+    @BindView(R.id.menu_news)
+    RelativeLayout mMenuNews;
     @BindView(R.id.icon_user)
     RoundedImageView mMenuIconUser;
     @BindView(R.id.menu_username)
@@ -85,6 +91,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initMenu() {
         mMenuPersonal.setOnClickListener(l -> goToOtherActivity(UserActivity.class));
+        mMenuNews.setOnClickListener(listener->goToOtherActivity(NewsActivity.class));
     }
 
     private void goToOtherActivity(Class<? extends BaseActivity> activity) {
