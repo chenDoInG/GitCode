@@ -5,7 +5,10 @@
  */
 package com.chendoing.gitcode.ui.adapter;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
@@ -25,15 +28,18 @@ import com.chendoing.gitcode.data.api.model.payload.IssueCommentEvent;
 import com.chendoing.gitcode.data.api.model.payload.MemberEvent;
 import com.chendoing.gitcode.data.api.model.payload.PullRequestEvent;
 import com.chendoing.gitcode.data.api.model.payload.WatchEvent;
-import com.chendoing.gitcode.presenters.NewsActivityPresenter;
 import com.chendoing.gitcode.ui.OnClickableSpannedClickListener;
-import com.chendoing.gitcode.ui.OnLoadingRepositoryListener;
 import com.chendoing.gitcode.utils.TimeUtil;
+import com.google.common.base.Enums;
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,50 +58,51 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
                                         List<Event> events,
                                         OnClickableSpannedClickListener userClickListener,
                                         OnClickableSpannedClickListener repositoryClickListener,
-                                        GithubResponse presenter) {
+                                        GithubResponse githubResponse) {
         mEvents = events;
         mContext = context;
         mUserClickListener = userClickListener;
         mRepositoryClickListener = repositoryClickListener;
-        mGithubResponse = presenter;
+        mGithubResponse = githubResponse;
     }
 
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case 1:
-                return new PullRequestViewHolder(LayoutInflater.from(mContext).inflate(
-                        R.layout.item_event_pullrequest, parent, false
-                ));
-            case 2:
-                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
-                        R.layout.item_event, parent, false
-                ));
-            case 3:
-                return new ForkEventViewHolder(LayoutInflater.from(mContext).inflate(
-                        R.layout.item_event, parent, false
-                ));
-            case 4:
-                return new MemberEventViewHolder(LayoutInflater.from(mContext).inflate(
-                        R.layout.item_event, parent, false
-                ));
-            case 5:
-                return new CreateEventViewHolder(LayoutInflater.from(mContext).inflate(
-                        R.layout.item_event, parent, false
-                ));
-            case 6:
-                return new IssueCommentEventViewHolder(LayoutInflater.from(mContext).inflate(
-                        R.layout.item_event_issuecomment, parent, false
-                ));
-            case 7:
-                return new PublicEventViewHolder(LayoutInflater.from(mContext).inflate(
-                        R.layout.item_event_issuecomment, parent, false
-                ));
-            default:
-                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
-                        R.layout.item_event, parent, false
-                ));
-        }
+        return getViewHolder(parent, viewType);
+//        switch (viewType) {
+//            case 1:
+//                return new PullRequestViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event_pullrequest, parent, false
+//                ));
+//            case 2:
+//                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event, parent, false
+//                ));
+//            case 3:
+//                return new ForkEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event, parent, false
+//                ));
+//            case 4:
+//                return new MemberEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event, parent, false
+//                ));
+//            case 5:
+//                return new CreateEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event, parent, false
+//                ));
+//            case 6:
+//                return new IssueCommentEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event_issuecomment, parent, false
+//                ));
+//            case 7:
+//                return new PublicEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event_issuecomment, parent, false
+//                ));
+//            default:
+//                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
+//                        R.layout.item_event, parent, false
+//                ));
+//        }
     }
 
     @Override
@@ -105,23 +112,30 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
 
     @Override
     public int getItemViewType(int position) {
-        if (PullRequestEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
-            return 1;
+        try {
+            return ItemType.valueOf(
+                    Joiner.on("").join(mEvents.get(position).getType(), "ViewHolder")
+            ).getViewType();
+        } catch (IllegalArgumentException e) {
+            return 0;
         }
-        if (WatchEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
-            return 2;
-        }
-        if (ForkEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
-            return 3;
-        if (MemberEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
-            return 4;
-        if (CreateEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
-            return 5;
-        if (IssueCommentEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
-            return 6;
-        if ("PublicEvent".equals(mEvents.get(position).getType()))
-            return 7;
-        return super.getItemViewType(position);
+//        if (PullRequestEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
+//            return 1;
+//        }
+//        if (WatchEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
+//            return 2;
+//        }
+//        if (ForkEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
+//            return 3;
+//        if (MemberEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
+//            return 4;
+//        if (CreateEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
+//            return 5;
+//        if (IssueCommentEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
+//            return 6;
+//        if ("PublicEvent".equals(mEvents.get(position).getType()))
+//            return 7;
+//        return super.getItemViewType(position);
     }
 
     @Override
@@ -129,23 +143,75 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
         return mEvents.size();
     }
 
-    public static abstract class TestViewHolder extends RecyclerView.ViewHolder {
+    private enum ItemType {
+        ErrorViewHolder(0, R.layout.item_event_parse_error);
 
-        public TestViewHolder(View itemView) {
-            super(itemView);
+        ItemType(int viewType, int resourceId) {
+            this.viewType = viewType;
+            this.resourceId = resourceId;
         }
 
-        public abstract void bindEvent(Event event);
+        private int viewType;
 
+        private int resourceId;
+
+        public int getResourceId() {
+            return resourceId;
+        }
+
+        public int getViewType() {
+            return viewType;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private EventViewHolder getViewHolder(ViewGroup parent, int viewType) {
+        ItemType type = ItemType.ErrorViewHolder;
+        for (ItemType itemType : ItemType.values()) {
+            if (itemType.viewType == viewType) {
+                type = itemType;
+            }
+        }
+        View itemView = LayoutInflater.from(mContext).inflate(type.getResourceId(), parent, false);
+        try {
+            Class eventViewHolderClass =
+                    Class.forName(
+                            Joiner.on("$").join(this.getClass().getName(), type.name())
+                    );
+            eventViewHolderClass.getConstructors();
+            //noinspection unchecked
+            Constructor constructor = eventViewHolderClass.getConstructor(UserReceivedEventListAdapter.class, View.class);
+            return (EventViewHolder) constructor.newInstance(this, itemView);
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
+            Timber.e(e.getMessage());
+            throw new RuntimeException("cannot reach here");
+        }
     }
 
     public abstract class EventViewHolder extends RecyclerView.ViewHolder {
 
         public EventViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         public abstract void bindEvent(Event event);
+    }
+
+    public class ErrorViewHolder extends EventViewHolder {
+
+        @BindView(R.id.item_event_parse_error_description)
+        TextView error;
+
+        public ErrorViewHolder(View itemView) {
+            super(itemView);
+        }
+
+
+        @Override
+        public void bindEvent(Event event) {
+            error.setText("cannot parse");
+        }
     }
 
     public class PullRequestViewHolder extends EventViewHolder {
@@ -165,7 +231,6 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
 
         public PullRequestViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
         }
 
         @Override
@@ -217,7 +282,7 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
 
         public IssueCommentEventViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+//            ButterKnife.bind(this, itemView);
         }
 
         @Override
@@ -357,7 +422,7 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
 
         public ActionEventViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+//            ButterKnife.bind(this, itemView);
         }
 
         public void bindEvent(Event event) {
