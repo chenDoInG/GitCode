@@ -7,7 +7,6 @@ package com.chendoing.gitcode.ui.adapter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -22,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.chendoing.gitcode.R;
 import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.data.api.model.Event;
-import com.chendoing.gitcode.data.api.model.payload.CreateEvent;
 import com.chendoing.gitcode.data.api.model.payload.ForkEvent;
 import com.chendoing.gitcode.data.api.model.payload.IssueCommentEvent;
 import com.chendoing.gitcode.data.api.model.payload.MemberEvent;
@@ -30,7 +28,6 @@ import com.chendoing.gitcode.data.api.model.payload.PullRequestEvent;
 import com.chendoing.gitcode.data.api.model.payload.WatchEvent;
 import com.chendoing.gitcode.ui.OnClickableSpannedClickListener;
 import com.chendoing.gitcode.utils.TimeUtil;
-import com.google.common.base.Enums;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -39,7 +36,6 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,40 +65,6 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return getViewHolder(parent, viewType);
-//        switch (viewType) {
-//            case 1:
-//                return new PullRequestViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event_pullrequest, parent, false
-//                ));
-//            case 2:
-//                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event, parent, false
-//                ));
-//            case 3:
-//                return new ForkEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event, parent, false
-//                ));
-//            case 4:
-//                return new MemberEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event, parent, false
-//                ));
-//            case 5:
-//                return new CreateEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event, parent, false
-//                ));
-//            case 6:
-//                return new IssueCommentEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event_issuecomment, parent, false
-//                ));
-//            case 7:
-//                return new PublicEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event_issuecomment, parent, false
-//                ));
-//            default:
-//                return new WatchEventViewHolder(LayoutInflater.from(mContext).inflate(
-//                        R.layout.item_event, parent, false
-//                ));
-//        }
     }
 
     @Override
@@ -113,29 +75,12 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
     @Override
     public int getItemViewType(int position) {
         try {
-            return ItemType.valueOf(
+            return ItemViewType.valueOf(
                     Joiner.on("").join(mEvents.get(position).getType(), "ViewHolder")
             ).getViewType();
         } catch (IllegalArgumentException e) {
             return 0;
         }
-//        if (PullRequestEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
-//            return 1;
-//        }
-//        if (WatchEvent.class.getSimpleName().equals(mEvents.get(position).getType())) {
-//            return 2;
-//        }
-//        if (ForkEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
-//            return 3;
-//        if (MemberEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
-//            return 4;
-//        if (CreateEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
-//            return 5;
-//        if (IssueCommentEvent.class.getSimpleName().equals(mEvents.get(position).getType()))
-//            return 6;
-//        if ("PublicEvent".equals(mEvents.get(position).getType()))
-//            return 7;
-//        return super.getItemViewType(position);
     }
 
     @Override
@@ -143,10 +88,17 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
         return mEvents.size();
     }
 
-    private enum ItemType {
-        ErrorViewHolder(0, R.layout.item_event_parse_error);
+    private enum ItemViewType {
+        ErrorViewHolder(0, R.layout.item_event_parse_error),
+        PullRequestViewHolder(1, R.layout.item_event_pullrequest),
+        WatchEventViewHolder(2, R.layout.item_event),
+        ForkEventViewHolder(3, R.layout.item_event),
+        MemberEventViewHolder(4, R.layout.item_event),
+        CreateEventViewHolder(5, R.layout.item_event),
+        IssueCommentEventViewHolder(6, R.layout.item_event_issuecomment),
+        PublicEventViewHolder(7, R.layout.item_event_issuecomment),;
 
-        ItemType(int viewType, int resourceId) {
+        ItemViewType(int viewType, int resourceId) {
             this.viewType = viewType;
             this.resourceId = resourceId;
         }
@@ -166,8 +118,8 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private EventViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        ItemType type = ItemType.ErrorViewHolder;
-        for (ItemType itemType : ItemType.values()) {
+        ItemViewType type = ItemViewType.ErrorViewHolder;
+        for (ItemViewType itemType : ItemViewType.values()) {
             if (itemType.viewType == viewType) {
                 type = itemType;
             }
@@ -282,7 +234,6 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
 
         public IssueCommentEventViewHolder(View itemView) {
             super(itemView);
-//            ButterKnife.bind(this, itemView);
         }
 
         @Override
@@ -422,7 +373,6 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
 
         public ActionEventViewHolder(View itemView) {
             super(itemView);
-//            ButterKnife.bind(this, itemView);
         }
 
         public void bindEvent(Event event) {
