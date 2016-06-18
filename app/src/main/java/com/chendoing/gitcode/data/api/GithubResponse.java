@@ -61,6 +61,12 @@ public class GithubResponse {
                 .observeOn(uiThread);
     }
 
+    public Observable<User> getUser(String name) {
+        return githubService.getUser(name)
+                .subscribeOn(executorThread)
+                .observeOn(uiThread);
+    }
+
     public Observable<List<Event>> getUserReceivedEvents(String userName, int page) {
         return githubService.getUserReceivedEvents(userName, page)
                 .subscribeOn(executorThread)

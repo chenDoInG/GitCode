@@ -1,5 +1,6 @@
 package com.chendoing.gitcode.presenters;
 
+import com.chendoing.gitcode.data.api.GithubResponse;
 import com.chendoing.gitcode.data.api.model.User;
 import com.chendoing.gitcode.injector.Activity;
 import com.chendoing.gitcode.presenters.views.UserView;
@@ -13,13 +14,16 @@ import javax.inject.Inject;
 @Activity
 public class UserActivityPresenter implements Presenter {
 
-    private User mUser;
+    private String mUser;
+
+    private GithubResponse mGithubResponse;
 
     private UserView mView;
 
-    @Inject
-    public UserActivityPresenter(User user) {
-        this.mUser = user;
+
+    public UserActivityPresenter(String userName, GithubResponse response) {
+        this.mUser = userName;
+        this.mGithubResponse = response;
     }
 
     @Override
@@ -29,7 +33,8 @@ public class UserActivityPresenter implements Presenter {
 
     @Override
     public void onStart() {
-        mView.bindView(mUser);
+        mGithubResponse.getUser(mUser)
+                .subscribe(mView::bindView);
     }
 
     @Override

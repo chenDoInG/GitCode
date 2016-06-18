@@ -90,7 +90,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void initMenu() {
-        mMenuPersonal.setOnClickListener(l -> goToOtherActivity(UserActivity.class));
+        mMenuPersonal.setOnClickListener(l -> UserActivity.gotoUserActivity(this,mUser.getLogin()));
         mMenuNews.setOnClickListener(listener->goToOtherActivity(NewsActivity.class));
     }
 

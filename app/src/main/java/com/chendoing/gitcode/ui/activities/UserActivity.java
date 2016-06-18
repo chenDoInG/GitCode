@@ -1,5 +1,7 @@
 package com.chendoing.gitcode.ui.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
@@ -9,6 +11,7 @@ import com.chendoing.gitcode.GitCodeApplication;
 import com.chendoing.gitcode.R;
 import com.chendoing.gitcode.data.api.model.User;
 import com.chendoing.gitcode.injector.components.DaggerUserActivityComponent;
+import com.chendoing.gitcode.injector.modules.UserActivityModule;
 import com.chendoing.gitcode.presenters.UserActivityPresenter;
 import com.chendoing.gitcode.presenters.views.UserView;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -22,6 +25,7 @@ import butterknife.BindView;
  */
 public class UserActivity extends BaseActivity implements UserView {
 
+    private final static String USER_NAME = "userActivity_user_name";
     @Inject
     UserActivityPresenter mPresenter;
 
@@ -56,6 +60,7 @@ public class UserActivity extends BaseActivity implements UserView {
     private void initDependencyInjector() {
         DaggerUserActivityComponent.builder()
                 .appComponent(((GitCodeApplication) getApplication()).getAppComponent())
+                .userActivityModule(new UserActivityModule(getIntent().getStringExtra(USER_NAME)))
                 .build().inject(this);
     }
 
@@ -73,5 +78,11 @@ public class UserActivity extends BaseActivity implements UserView {
         mTextView.setText(user.getLogin());
         mFollower.setText(String.valueOf(user.getFollowers()));
         mFollowing.setText(String.valueOf(user.getFollowing()));
+    }
+
+    public static void gotoUserActivity(Context context, String userName) {
+        Intent intent = new Intent(context, UserActivity.class);
+        intent.putExtra(USER_NAME, userName);
+        context.startActivity(intent);
     }
 }
