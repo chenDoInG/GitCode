@@ -38,6 +38,7 @@ public interface GithubService {
     @GET("users/{userName}")
     Observable<User> getUser(@Path("userName") String name);
 
-    @GET("repos/{userName}/{repo}")
-    Observable<Repository> getUserRepository(@Path("userName") String userName, @Path("repo") String repo);
+    @GET("repos/{owner}/{repo}")
+    Observable<Repository> getUserRepository(@Path("owner") String userName, @Path("repo") String repo);
+
 }

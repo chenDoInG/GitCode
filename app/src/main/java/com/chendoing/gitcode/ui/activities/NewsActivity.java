@@ -141,16 +141,21 @@ public class NewsActivity extends BaseActivity implements NewsView {
                 this,
                 events,
                 this::goToUserActivity,
-                this::showErrorView,
+                this::goToRepositoryActivity,
                 mGithubResponse
         );
         mRecyclerView.setAdapter(mUserReceivedEventListAdapter);
     }
 
 
-    private void goToUserActivity(String userName){
-        UserActivity.gotoUserActivity(this,userName);
+    private void goToUserActivity(String userName) {
+        UserActivity.gotoUserActivity(this, userName);
     }
+
+    private void goToRepositoryActivity(String userName, String repo) {
+        RepositoryActivity.goToRepositoryActivity(this, userName, repo);
+    }
+
     @Override
     public void updateEvents(int eventsAdd) {
         mUserReceivedEventListAdapter.notifyItemChanged(

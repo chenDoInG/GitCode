@@ -27,6 +27,7 @@ import com.chendoing.gitcode.data.api.model.payload.MemberEvent;
 import com.chendoing.gitcode.data.api.model.payload.PullRequestEvent;
 import com.chendoing.gitcode.data.api.model.payload.WatchEvent;
 import com.chendoing.gitcode.ui.OnClickableSpannedClickListener;
+import com.chendoing.gitcode.ui.OnRepositorySpannedClickListener;
 import com.chendoing.gitcode.utils.TimeUtil;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -45,7 +46,7 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
 
     private final List<Event> mEvents;
     private final OnClickableSpannedClickListener mUserClickListener;
-    private final OnClickableSpannedClickListener mRepositoryClickListener;
+    private final OnRepositorySpannedClickListener mRepositoryClickListener;
     private final GithubResponse mGithubResponse;
 
     private Context mContext;
@@ -53,7 +54,7 @@ public class UserReceivedEventListAdapter extends RecyclerView.Adapter<UserRecei
     public UserReceivedEventListAdapter(Context context,
                                         List<Event> events,
                                         OnClickableSpannedClickListener userClickListener,
-                                        OnClickableSpannedClickListener repositoryClickListener,
+                                        OnRepositorySpannedClickListener repositoryClickListener,
                                         GithubResponse githubResponse) {
         mEvents = events;
         mContext = context;

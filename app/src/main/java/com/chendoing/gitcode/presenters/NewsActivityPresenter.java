@@ -160,7 +160,8 @@ public class NewsActivityPresenter implements Presenter {
         newsView.hideIndicator();
         newsView.hideLoadingMoreEventIndicator();
         newsView.hideErrorView();
-        mSubscription.unsubscribe();
+        if (mSubscription != null)
+            mSubscription.unsubscribe();
         mIsEventRequestRunning = false;
     }
 

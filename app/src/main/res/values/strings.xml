@@ -72,4 +72,7 @@
     <string name="icon_plus"></string>
     <string name="icon_setting"></string>
     <string name="icon_comment"></string>
+    <string name="stargazers">Stargazers</string>
+    <string name="watchers">Watchers</string>
+    <string name="forks">Forks</string>
 </resources>
